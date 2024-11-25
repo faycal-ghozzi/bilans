@@ -12,7 +12,16 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
+        @vite('resources/js/cdn-scripts/jquery-3.6.0.js')
+        @vite('resources/js/cdn-scripts/jquery-steps.js')
+        @vite('resources/js/cdn-scripts/jquery-validate.js')
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite('resources/js/stepper_conf.js')
+        @vite('resources/js/calc_actifs.js')
+        @vite('resources/js/calc_passifs.js')
+        @vite('resources/js/etat_resultat.js')
+        @vite('resources/js/financialStatements.js')
+
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
@@ -28,8 +37,8 @@
             @endif
 
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
+            <main class="container mx-auto py-8">
+                @yield('content')
             </main>
         </div>
     </body>

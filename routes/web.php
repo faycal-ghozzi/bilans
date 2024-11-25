@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FinancialStatementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware('auth')->group(function(){
+    Route::get('/fs/add', [FinancialStatementController::class, 'index'])->name('financial-statement.create');
+    Route::post('/fs/store', [FinancialStatementController::class, 'store'])->name('financial-statement.store');
+    Route::get('/fs/all', [FinancialStatementController::class, 'fetchAll'])->name('financial-statement.fetch_all');
+    Route::get('/fs/{id}', [FinancialStatementController::class, 'show'])->name('financial-statement.show');
+});
+
+
 
 require __DIR__.'/auth.php';

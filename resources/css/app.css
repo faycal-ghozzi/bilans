@@ -1,3 +1,88 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.wizard > .content > .body {
+    display: none;
+}
+.wizard > .content > .body.current {
+    display: block;
+}
+/* Styling the step tabs */
+.wizard > .steps > ul {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+.wizard > .steps > ul > li {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background: #082e3493;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+/* Active step styling */
+.wizard > .steps > ul > li.current {
+    background: #082E34;
+    color: white;
+    font-weight: bold;
+}
+/* Hide extra space for inactive steps */
+.wizard > .steps > ul > li {
+    margin-right: 10px;
+}
+/* Hide .current-info.audible and .number for the active step */
+.wizard > .steps > ul > li.current .current-info.audible,
+.wizard > .steps > ul > li.current .number,
+.wizard > .steps > ul > li.disabled .number,
+.wizard > .steps > ul > li.done .number {
+    display: none;
+}
+/* Hide h3 headings within each section */
+.wizard > .content > .body > h3 {
+    display: none;
+}
+/* Position the action buttons at the bottom-right */
+.wizard .actions {
+    margin-top: 3em;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+}
+/*  */
+.wizard .actions ul {
+    display: flex;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+/* Style the action buttons */
+.wizard .actions ul li a {
+    transition: 750ms;
+    background-color: #082E34;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-right: 10px;
+}
+/* Remove Titles */
+h3.title {
+    display: none;
+}
+/* Hover effect for the action buttons */
+.wizard .actions a:hover {
+    background-color: #082e3485;
+    transition: 750ms;
+}
+/* Hide the "Previous" button on the first step */
+.wizard .actions .disabled {
+    display: none;
+}
