@@ -57,7 +57,7 @@ $(document).ready(function() {
                     }
                     break;
                 case 4:
-                    if(!$('#dropzone-file').val()){
+                    if(!$('#file_input').val()){
                         $('#error-message').show();
                         return false;
                     }
@@ -88,7 +88,7 @@ $(document).ready(function() {
                 .find(":disabled[data-disabled]")
                 .prop("disabled", true)
                 .removeData("disabled");
-  saveDatatoDB(formData)
+            saveDatatoDB(formData)
         },
         onInit: function (event, currentIndex) {
             $(".actions a[href='#previous']").hide();

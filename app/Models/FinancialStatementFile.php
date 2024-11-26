@@ -10,7 +10,7 @@ class FinancialStatementFile extends Model
     protected $fillable = [
         'company_id',
         'file_path',
-        'crrency',
+        'currency',
         'date'
     ];
 

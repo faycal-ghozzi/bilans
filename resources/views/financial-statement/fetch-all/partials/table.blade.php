@@ -18,7 +18,7 @@
                     </a>
                 </td>
                 <td class="px-6 py-4">
-                    <a href="{{ route('financial-statement.show', ['id' => $statement->id, 'date' => $statement->date]) }}" 
+                    <a href="{{ route('financial-statement.show', ['id' => $statement->id]) }}" 
                        class="text-btlRed underline hover:text-red-600">
                         Consulter
                     </a>

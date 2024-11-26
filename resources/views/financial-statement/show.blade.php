@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('sidebar')
-    @include('layouts.sidebar')
+    @include('layouts.sidebar', ['id' => $file->company, 'date' => $file->date])
 @endsection
 
 @section('content')

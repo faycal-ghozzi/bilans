@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FinancialAnalysisController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialStatementController;
@@ -34,6 +35,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/fs/store', [FinancialStatementController::class, 'store'])->name('financial-statement.store');
     Route::get('/fs/all', [FinancialStatementController::class, 'fetchAll'])->name('financial-statement.fetch_all');
     Route::get('/fs/{id}', [FinancialStatementController::class, 'show'])->name('financial-statement.show');
+
+    Route::get('/fs/{id}/analysis', [FinancialAnalysisController::class, 'index'])->name('financial-statement.analysis');
 });
 
 
