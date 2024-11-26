@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('sidebar')
+    @include('layouts.sidebar')
+@endsection
+
 @section('content')
 <div class="container mx-auto px-4">
     @extends('layouts.sidebar')

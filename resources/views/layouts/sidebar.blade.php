@@ -1,30 +1,15 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent nav-collapse-hide-child" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    {{-- <i></i> if icon is needed --}}
-                    <p>
-                        {{ __('Test 1')}}
-                    </p>
-                </a>
-            </li>           
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    {{-- <i></i> if icon is needed --}}
-                    <p>
-                        {{ __('Test 2')}}
-                    </p>
-                </a>
+<div class="bg-gray-100 w-64 min-h-screen">
+    <nav class="px-4 py-6">
+        <ul class="space-y-4">
+            <li>
+                <a href="#" class="block px-4 py-2 text-white bg-blue-500 rounded">Item 1</a>
             </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    {{-- <i></i> if icon is needed --}}
-                    <p>
-                        {{ __('Test 3')}}
-                    </p>
-                </a>
+            <li>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded">Item 2</a>
+            </li>
+            <li>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-200 rounded">Item 3</a>
             </li>
         </ul>
     </nav>
-</aside>
+</div>
