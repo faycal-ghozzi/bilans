@@ -26,7 +26,9 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex flex-col">
             <!-- Navigation Bar -->
-            @include('layouts.navigation')
+            <div class="sticky top-0 z-50 bg-white shadow">
+                @include('layouts.navigation')
+            </div>
     
             <div class="flex flex-1">
                 <!-- Sidebar -->
