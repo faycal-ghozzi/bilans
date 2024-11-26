@@ -37,7 +37,7 @@
                 @endif
     
                 <!-- Main Content Area -->
-                <div class="flex-1">
+                <div class="flex-1 @hasSection('sidebar') ml-64 @endif">
                     <!-- Page Heading -->
                     @if (isset($header))
                         <header class="bg-white shadow">

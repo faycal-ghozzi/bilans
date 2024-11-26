@@ -5,9 +5,9 @@
 @endsection
 
 @section('content')
-<div class="container mx-auto px-4">
-    <h1 class="text-2xl font-bold mb-6">État Financier de {{ $file->company->name }}</h1>
-    <p class="mb-4"><strong>Date État Financier :</strong> {{ $file->date }}</p>
+<div class="container mx-auto px-10">
+    <h1 class="text-2xl font-bold text-center mb-6">État Financier de {{ $file->company->name }}</h1>
+    <p class="mb-4 text-center"><strong>{{ $file->date }}</strong></p>
 
     @foreach ($categories as $category => $entries)
     <section class="mb-6">
@@ -23,7 +23,7 @@
 
         <!-- Entries -->
         @php
-            $previousEntry = null; // To hold the last entry for subtraction
+            $previousEntry = null;
         @endphp
         @foreach ($entries as $entry)
         <div class="grid grid-cols-3 gap-4 items-center {{ $entry->decoration == 'stripe' ? 'bg-gray-200' : '' }}">
