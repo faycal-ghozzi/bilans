@@ -31,11 +31,12 @@
             </div>
     
             <div class="flex flex-1">
-                <!-- Sidebar -->
-                @hasSection('sidebar')
-                    @yield('sidebar')
+                @if(View::hasSection('sidebar'))
+                    <div class="bg-gray-100 w-64 h-screen sticky top-0">
+                        @yield('sidebar')
+                    </div>
                 @endif
-    
+            
                 <!-- Main Content Area -->
                 <div class="flex-1">
                     <!-- Page Heading -->
@@ -46,7 +47,7 @@
                             </div>
                         </header>
                     @endif
-    
+            
                     <!-- Page Content -->
                     <main class="container mx-auto py-8">
                         @yield('content')

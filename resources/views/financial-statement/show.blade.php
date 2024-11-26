@@ -6,8 +6,6 @@
 
 @section('content')
 <div class="container mx-auto px-4">
-    @extends('layouts.sidebar')
-
     <h1 class="text-2xl font-bold mb-6">État Financier de {{ $file->company->name }}</h1>
     <p class="mb-4"><strong>Date État Financier :</strong> {{ $file->date }}</p>
 
