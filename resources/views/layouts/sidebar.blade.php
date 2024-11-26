@@ -24,12 +24,13 @@
                     Item 2
                 </a>
             </li>
-            <!-- Item 3 with Downward Arrow Icon -->
+            <!-- Item 3 with Proper Download Icon -->
             <li>
                 <a href="#" class="flex items-center px-4 py-4 text-white hover:bg-gray-200 hover:text-btlGreen">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <!-- Downward Arrow Icon -->
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4m-4 4v5" />
+                        <!-- Download Icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4" />
+                        <rect x="4" y="18" width="16" height="2" rx="1" />
                     </svg>
                     Item 3
                 </a>
