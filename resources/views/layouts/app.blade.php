@@ -30,8 +30,9 @@
                 @yield('sidebar')
             @endif
     
-            <!-- Main Content -->
-            <div class="flex-1">
+            <!-- Main Content Area -->
+            <div class="flex-1 flex flex-col">
+                <!-- Navigation Bar -->
                 @include('layouts.navigation')
     
                 <!-- Page Heading -->
