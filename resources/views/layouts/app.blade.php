@@ -24,30 +24,32 @@
 
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 flex">
-            <!-- Sidebar -->
-            @hasSection('sidebar')
-                @yield('sidebar')
-            @endif
+        <div class="min-h-screen bg-gray-100 flex flex-col">
+            <!-- Navigation Bar -->
+            @include('layouts.navigation')
     
-            <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col">
-                <!-- Navigation Bar -->
-                @include('layouts.navigation')
-    
-                <!-- Page Heading -->
-                @if (isset($header))
-                    <header class="bg-white shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
+            <div class="flex flex-1">
+                <!-- Sidebar -->
+                @hasSection('sidebar')
+                    @yield('sidebar')
                 @endif
     
-                <!-- Page Content -->
-                <main class="container mx-auto py-8">
-                    @yield('content')
-                </main>
+                <!-- Main Content Area -->
+                <div class="flex-1">
+                    <!-- Page Heading -->
+                    @if (isset($header))
+                        <header class="bg-white shadow">
+                            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                                {{ $header }}
+                            </div>
+                        </header>
+                    @endif
+    
+                    <!-- Page Content -->
+                    <main class="container mx-auto py-8">
+                        @yield('content')
+                    </main>
+                </div>
             </div>
         </div>
     </body>
