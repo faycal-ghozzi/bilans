@@ -10,7 +10,6 @@ class FinancialRatioService
 {
     public function calculateRatios($id)
     {
-        // Retrieve financial statement data
         $file = FinancialStatementFile::with('company')->findOrFail($id);
         
         $dateCurrentYear = Carbon::parse($file->date)->format('Y-m-d');
@@ -27,7 +26,6 @@ class FinancialRatioService
         $currentYearData = $financialStatements[$dateCurrentYear] ?? collect([]);
         $previousYearData = $financialStatements[$datePreviousYear] ?? collect([]);
 
-        // Calculate Ratios
         return [
             'profitability' => $this->calculateProfitabilityRatios($currentYearData, $previousYearData),
             'financial_structure' => $this->calculateFinancialStructureRatios($currentYearData, $previousYearData),
@@ -140,24 +138,20 @@ class FinancialRatioService
 
     private function calculateEBITDA($currentYearData)
     {
-        // Retrieve required values for EBITDA calculation
         $resultatExploitation = $this->getValueByLabel($currentYearData, 'Résultat d\'exploitation');
         $dotations = $this->getValueByLabel($currentYearData, 'Dotations aux amortissements et aux provisions');
         
-        // Calculate EBITDA
         return $resultatExploitation + $dotations;
     }
 
     private function calculateCAF($currentYearData)
     {
-        // Retrieve required values for CAF calculation
         $resultatNet = $this->getValueByLabel($currentYearData, 'Résultat net de l\'exercice');
         $dotations = $this->getValueByLabel($currentYearData, 'Dotations aux amortissements et aux provisions');
         $reprises = $this->getValueByLabel($currentYearData, 'Reprises sur provisions');
         $produitsCession = $this->getValueByLabel($currentYearData, 'Produits de cession d\'immobilisations');
         $valeursComptables = $this->getValueByLabel($currentYearData, 'Valeurs comptables des immobilisations cédées');
 
-        // Calculate CAF
         return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
     }
 

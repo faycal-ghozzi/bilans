@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/fs/all', [FinancialStatementController::class, 'fetchAll'])->name('financial-statement.fetch_all');
     Route::get('/fs/{id}', [FinancialStatementController::class, 'show'])->name('financial-statement.show');
 
-    Route::get('/fs/{id}/analysis', [FinancialAnalysisController::class, 'index'])->name('financial-statement.analysis');
+    Route::get('/fs/{id}/analysis', [FinancialAnalysisController::class, 'index'])->name('financial.analysis');
 });
 
 

@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\FinancialStatementService;
+use App\Services\FinancialRatioService;
 use Illuminate\Http\Request;
 
 class FinancialAnalysisController extends Controller
 {
 
-    protected $financialStatementService;
+    protected $financialRatioService;
 
-    public function __construct(FinancialStatementService $financialStatementService)
+    public function __construct(FinancialRatioService $financialRatioService)
     {
-        $this->financialStatementService = $financialStatementService;
+        $this->financialRatioService = $financialRatioService;
     }
 
     public function index($id)
     {
-        $data = $this->financialStatementService->getFinancialStatementDetails($id);
+        $ratios = $this->financialRatioService->calculateRatios($id);
 
-        var_dump($data['financialStatements']);
+        return view('financial-analysis.results', [
+            'ratios' => $ratios
+        ]);
     }
 }
