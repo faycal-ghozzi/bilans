@@ -6,20 +6,18 @@
 
 @section('content')
 <div class="container mx-auto px-10">
+    <div class="bg-white p-8 shadow-md rounded-lg ">
     <h1 class="text-2xl font-bold text-center mb-6">État Financier de {{ $file->company->name }}</h1>
     <p class="mb-4 text-center"><strong>{{ $file->date }}</strong></p>
-
+        <!-- Table Headers -->
+    <div class="grid grid-cols-3 gap-4 items-center">
+        <div class="text-lg font-semibold text-center col-start-2">N</div>
+        <div class="text-lg font-semibold text-center">N-1</div>
+    </div>
     @foreach ($categories as $category => $entries)
     <section class="mb-6">
         <!-- Category Header -->
         <h2 class="text-xl font-bold mb-4">{{ $category }}</h2>
-
-        <!-- Table Headers -->
-        <div class="grid grid-cols-3 gap-4 items-center">
-            <div class="text-lg font-semibold">Année</div>
-            <div class="text-lg font-semibold text-center">n</div>
-            <div class="text-lg font-semibold text-center">n-1</div>
-        </div>
 
         <!-- Entries -->
         @php
@@ -101,5 +99,6 @@
         @endforeach
     </section>
     @endforeach
+    </div>
 </div>
 @endsection
