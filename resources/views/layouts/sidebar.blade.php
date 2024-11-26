@@ -1,4 +1,4 @@
-<div class="bg-gray-100 w-64 h-screen sticky top-0">
+<div class="bg-gray-100 w-64 h-screen sticky top-[4rem]">
     <nav class="px-4 py-6">
         <ul class="space-y-4">
             <li>

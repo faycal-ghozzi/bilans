@@ -26,17 +26,16 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex flex-col">
             <!-- Navigation Bar -->
-            <div class="sticky top-0 z-50 bg-white shadow">
+            <div class="sticky top-0 z-50 bg-[rgb(23,48,35)] shadow">
                 @include('layouts.navigation')
             </div>
     
             <div class="flex flex-1">
+                <!-- Sidebar -->
                 @if(View::hasSection('sidebar'))
-                    <div class="bg-gray-100 w-64 h-screen sticky top-0">
-                        @yield('sidebar')
-                    </div>
+                    @yield('sidebar')
                 @endif
-            
+    
                 <!-- Main Content Area -->
                 <div class="flex-1">
                     <!-- Page Heading -->
@@ -47,7 +46,7 @@
                             </div>
                         </header>
                     @endif
-            
+    
                     <!-- Page Content -->
                     <main class="container mx-auto py-8">
                         @yield('content')
