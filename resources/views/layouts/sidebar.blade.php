@@ -4,7 +4,7 @@
             <!-- Item 1 with Magnifying Glass over Document Icon -->
             <li>
                 <a href="#" class="flex items-center px-4 py-4 text-white bg-btlRed">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <!-- Document Icon -->
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v7a2 2 0 01-2 2h-2" />
                         <!-- Magnifying Glass -->
@@ -17,19 +17,19 @@
             <!-- Item 2 with Financial Ratio Icon -->
             <li>
                 <a href="#" class="flex items-center px-4 py-4 text-white hover:bg-gray-200 hover:text-btlGreen">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <!-- Bar Chart Icon (symbolizing financial ratios) -->
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h2v10H3V10zm6-4h2v14H9V6zm6 8h2v6h-2v-6zm6-8h2v14h-2V6z" />
                     </svg>
                     Item 2
                 </a>
             </li>
-            <!-- Item 3 with Download Icon -->
+            <!-- Item 3 with Downward Arrow Icon -->
             <li>
                 <a href="#" class="flex items-center px-4 py-4 text-white hover:bg-gray-200 hover:text-btlGreen">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <!-- Download Icon -->
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 16v-8m0 0l-4 4m4-4l4 4m-4 4v4m6 0H6" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <!-- Downward Arrow Icon -->
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v12m0 0l-4-4m4 4l4-4m-4 4v5" />
                     </svg>
                     Item 3
                 </a>
