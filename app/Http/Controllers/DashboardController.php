@@ -19,7 +19,7 @@ class DashboardController extends Controller
 
         // Date range for financial statements
         $minYear = FinancialStatementFile::min('date') ? Carbon::parse(FinancialStatementFile::min('date'))->year : Carbon::now()->year;
-        $maxYear = Carbon::now()->year;
+        $maxYear = FinancialStatementFile::max('date') ? Carbon::parse(FinancialStatementFile::max('date'))->year : Carbon::now()->year;
 
         // Year and grouping type from request
         $selectedYear = $request->input('year', $maxYear);
