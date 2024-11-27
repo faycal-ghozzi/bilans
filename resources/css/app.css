@@ -93,19 +93,19 @@ h3.title {
 
 /* Styling for the toggle switch */
 .peer {
-    display: inline-flex;
-    align-items: center;
+    display: inline-block;
+    position: relative;
     cursor: pointer;
 }
 
-.peer:checked + .peer {
-    background-color: #174823; /* Your custom green color */
+.peer:checked ~ .peer-checked\:translate-x-6 {
+    transform: translateX(1.5rem); /* Moves the toggle knob */
 }
 
-.peer-checked\:translate-x-5 {
-    transform: translateX(1.25rem);
+.peer:checked ~ .peer-checked\:bg-btlGreen {
+    background-color: #174823; /* Custom green color */
 }
 
-.peer-checked\:bg-btlGreen {
-    background-color: #174823;
+.peer:focus ~ .peer-focus\:ring-2 {
+    box-shadow: 0 0 0 2px #174823;
 }

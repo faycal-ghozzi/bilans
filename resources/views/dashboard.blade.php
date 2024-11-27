@@ -42,16 +42,20 @@
     <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Financial Statements Overview</h2>
-            <div class="flex gap-4 items-center">
-                <!-- View Type Toggle -->
+            <div class="flex items-center gap-4">
+                <!-- Animated Switch -->
                 <form id="viewTypeForm" action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-                    <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" name="viewType" id="viewTypeToggle" class="sr-only" 
-                            value="month" {{ $viewType === 'month' ? 'checked' : '' }}>
-                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-btlGreen"></div>
-                        <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer peer-checked:translate-x-5 transition-transform"></div>
-                    </label>
-                    <span class="ml-3 text-sm text-gray-900">{{ $viewType === 'month' ? 'Monthly' : 'Yearly' }}</span>
+                    <div class="flex items-center gap-2">
+                        <label class="text-sm font-medium">Yearly</label>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="viewTypeToggle" class="sr-only peer" 
+                                {{ $viewType === 'month' ? 'checked' : '' }}>
+                            <div class="w-12 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-btlGreen rounded-full peer peer-checked:bg-btlGreen transition-all"></div>
+                            <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer peer-checked:translate-x-6 transition-transform"></div>
+                        </label>
+                        <label class="text-sm font-medium">Monthly</label>
+                    </div>
+                    <input type="hidden" name="viewType" value="{{ $viewType === 'month' ? 'month' : 'year' }}">
                 </form>
 
                 <!-- Year Dropdown for Monthly View -->
@@ -78,12 +82,11 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('financialStatementsChart').getContext('2d');
+        const toggle = document.getElementById('viewTypeToggle');
+        const form = document.getElementById('viewTypeForm');
 
         // Handle toggle switch
-        const toggle = document.getElementById('viewTypeToggle');
         toggle.addEventListener('change', function () {
-            const form = document.getElementById('viewTypeForm');
             const isMonthly = toggle.checked;
             const viewType = isMonthly ? 'month' : 'year';
             form.action = `{{ route('dashboard') }}?viewType=${viewType}`;
@@ -91,6 +94,7 @@
         });
 
         // Chart data and labels
+        const ctx = document.getElementById('financialStatementsChart').getContext('2d');
         const labels = @json($labels);
         const data = @json($chartData);
 
