@@ -10,27 +10,52 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Metrics
         $totalCompanies = Company::count();
         $totalUsers = User::count();
         $totalFinancialStatements = FinancialStatementFile::count();
 
-        // Financial Statements per Month (last year)
-        $financialStatementsByMonth = FinancialStatementFile::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
-            ->whereYear('created_at', Carbon::now()->year)
-            ->groupBy('month')
-            ->orderBy('month')
-            ->get()
-            ->keyBy('month');
+        // Date range for financial statements
+        $minYear = FinancialStatementFile::min('created_at') ? Carbon::parse(FinancialStatementFile::min('created_at'))->year : Carbon::now()->year;
+        $maxYear = Carbon::now()->year;
 
-        // Data for chart (fill missing months with zero)
-        $monthlyData = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $monthlyData[] = $financialStatementsByMonth->get($i)->count ?? 0;
+        // Year and grouping type from request
+        $selectedYear = $request->input('year', $maxYear);
+        $groupBy = $request->input('groupBy', 'month'); // Default: month
+
+        // Data for graph
+        $financialStatements = FinancialStatementFile::selectRaw(
+            $groupBy === 'month' 
+                ? 'MONTH(created_at) as period, COUNT(*) as count' 
+                : 'YEAR(created_at) as period, COUNT(*) as count'
+        )
+        ->whereYear('created_at', $selectedYear)
+        ->groupBy('period')
+        ->orderBy('period')
+        ->get()
+        ->keyBy('period');
+
+        // Prepare data for the graph
+        if ($groupBy === 'month') {
+            $chartData = [];
+            for ($i = 1; $i <= 12; $i++) {
+                $chartData[] = $financialStatements->get($i)->count ?? 0;
+            }
+        } else {
+            $chartData = $financialStatements->pluck('count')->toArray();
         }
 
-        return view('dashboard', compact('totalCompanies', 'totalUsers', 'totalFinancialStatements', 'monthlyData'));
+        return view('dashboard', compact(
+            'totalCompanies', 
+            'totalUsers', 
+            'totalFinancialStatements', 
+            'minYear', 
+            'maxYear', 
+            'selectedYear', 
+            'chartData', 
+            'groupBy'
+        ));
     }
 }
