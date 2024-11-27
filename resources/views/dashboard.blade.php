@@ -43,20 +43,15 @@
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Financial Statements Overview</h2>
             <div class="flex gap-4 items-center">
-                <!-- View Type Selector -->
-                <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-                    <input type="hidden" name="selectedYear" value="{{ $selectedYear }}">
-                    <label class="mr-2">View:</label>
-                    <label class="flex items-center">
-                        <input type="radio" name="viewType" value="year" 
-                            onchange="this.form.submit()" {{ $viewType === 'year' ? 'checked' : '' }}> 
-                        <span class="ml-1">Yearly</span>
+                <!-- View Type Toggle -->
+                <form id="viewTypeForm" action="{{ route('dashboard') }}" method="GET" class="flex items-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="viewType" id="viewTypeToggle" class="sr-only" 
+                            value="month" {{ $viewType === 'month' ? 'checked' : '' }}>
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-btlGreen"></div>
+                        <div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full peer peer-checked:translate-x-5 transition-transform"></div>
                     </label>
-                    <label class="flex items-center ml-4">
-                        <input type="radio" name="viewType" value="month" 
-                            onchange="this.form.submit()" {{ $viewType === 'month' ? 'checked' : '' }}>
-                        <span class="ml-1">Monthly</span>
-                    </label>
+                    <span class="ml-3 text-sm text-gray-900">{{ $viewType === 'month' ? 'Monthly' : 'Yearly' }}</span>
                 </form>
 
                 <!-- Year Dropdown for Monthly View -->
@@ -84,6 +79,16 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('financialStatementsChart').getContext('2d');
+
+        // Handle toggle switch
+        const toggle = document.getElementById('viewTypeToggle');
+        toggle.addEventListener('change', function () {
+            const form = document.getElementById('viewTypeForm');
+            const isMonthly = toggle.checked;
+            const viewType = isMonthly ? 'month' : 'year';
+            form.action = `{{ route('dashboard') }}?viewType=${viewType}`;
+            form.submit();
+        });
 
         // Chart data and labels
         const labels = @json($labels);

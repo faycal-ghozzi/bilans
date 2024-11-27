@@ -90,3 +90,22 @@ h3.title {
 #financialStatementsChart {
     max-height: 400px; /* Set a fixed height for the chart canvas */
 }
+
+/* Styling for the toggle switch */
+.peer {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.peer:checked + .peer {
+    background-color: #174823; /* Your custom green color */
+}
+
+.peer-checked\:translate-x-5 {
+    transform: translateX(1.25rem);
+}
+
+.peer-checked\:bg-btlGreen {
+    background-color: #174823;
+}
