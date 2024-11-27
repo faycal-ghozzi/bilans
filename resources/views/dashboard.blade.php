@@ -101,7 +101,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Financial Statements',
+                    label: $groupBy === 'month' ? 'Monthly Financial Statements' : 'Yearly Financial Statements',
                     data: data,
                     backgroundColor: 'rgba(23, 48, 35, 0.8)',
                     borderColor: 'rgba(23, 48, 35, 1)',

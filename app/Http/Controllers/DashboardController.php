@@ -11,51 +11,59 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     public function index(Request $request)
-    {
-        // Metrics
-        $totalCompanies = Company::count();
-        $totalUsers = User::count();
-        $totalFinancialStatements = FinancialStatementFile::count();
+{
+    // Metrics
+    $totalCompanies = Company::count();
+    $totalUsers = User::count();
+    $totalFinancialStatements = FinancialStatementFile::count();
 
-        // Date range for financial statements
-        $minYear = FinancialStatementFile::min('date') ? Carbon::parse(FinancialStatementFile::min('date'))->year : Carbon::now()->year;
-        $maxYear = FinancialStatementFile::max('date') ? Carbon::parse(FinancialStatementFile::max('date'))->year : Carbon::now()->year;
+    // Date range for financial statements
+    $minYear = FinancialStatementFile::min('date') ? Carbon::parse(FinancialStatementFile::min('date'))->year : Carbon::now()->year;
+    $maxYear = FinancialStatementFile::max('date') ? Carbon::parse(FinancialStatementFile::max('date'))->year : Carbon::now()->year;
 
-        // Year and grouping type from request
-        $selectedYear = $request->input('year', $maxYear);
-        $groupBy = $request->input('groupBy', 'month'); // Default: month
+    // Year and grouping type from request
+    $selectedYear = $request->input('year', $maxYear);
+    $groupBy = $request->input('groupBy', 'month'); // Default: month
 
-        // Data for graph
-        $financialStatements = FinancialStatementFile::selectRaw(
-            $groupBy === 'month' 
-                ? 'MONTH(date) as period, COUNT(*) as count' 
-                : 'YEAR(date) as period, COUNT(*) as count'
-        )
-        ->whereYear('date', $selectedYear)
-        ->groupBy('period')
-        ->orderBy('period')
-        ->get()
-        ->keyBy('period');
+    if ($groupBy === 'year') {
+        // Get financial statement counts grouped by year
+        $financialStatements = FinancialStatementFile::selectRaw('YEAR(date) as period, COUNT(*) as count')
+            ->groupBy('period')
+            ->orderBy('period')
+            ->get()
+            ->keyBy('period');
 
-        // Prepare data for the graph
-        if ($groupBy === 'month') {
-            $chartData = [];
-            for ($i = 1; $i <= 12; $i++) {
-                $chartData[] = $financialStatements->get($i)->count ?? 0;
-            }
-        } else {
-            $chartData = $financialStatements->pluck('count')->toArray();
+        // Generate data for all years in the range
+        $chartData = [];
+        foreach (range($minYear, $maxYear) as $year) {
+            $chartData[] = $financialStatements->get($year)->count ?? 0;
         }
+    } else {
+        // Get financial statement counts grouped by month for the selected year
+        $financialStatements = FinancialStatementFile::selectRaw('MONTH(date) as period, COUNT(*) as count')
+            ->whereYear('date', $selectedYear)
+            ->groupBy('period')
+            ->orderBy('period')
+            ->get()
+            ->keyBy('period');
 
-        return view('dashboard', compact(
-            'totalCompanies', 
-            'totalUsers', 
-            'totalFinancialStatements', 
-            'minYear', 
-            'maxYear', 
-            'selectedYear', 
-            'chartData', 
-            'groupBy'
-        ));
+        // Generate data for all months
+        $chartData = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $chartData[] = $financialStatements->get($i)->count ?? 0;
+        }
     }
+
+    return view('dashboard', compact(
+        'totalCompanies', 
+        'totalUsers', 
+        'totalFinancialStatements', 
+        'minYear', 
+        'maxYear', 
+        'selectedYear', 
+        'chartData', 
+        'groupBy'
+    ));
+}
+
 }
