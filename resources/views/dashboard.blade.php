@@ -42,40 +42,40 @@
     <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Financial Statements Overview</h2>
-            <div class="flex gap-4">
-                <!-- Year Selector -->
+            <div class="flex gap-4 items-center">
+                <!-- View Type Selector -->
                 <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-                    <label for="year" class="mr-2">Year:</label>
-                    <select name="year" id="year" class="border-gray-300 rounded" onchange="this.form.submit()">
+                    <input type="hidden" name="selectedYear" value="{{ $selectedYear }}">
+                    <label class="mr-2">View:</label>
+                    <label class="flex items-center">
+                        <input type="radio" name="viewType" value="year" 
+                            onchange="this.form.submit()" {{ $viewType === 'year' ? 'checked' : '' }}> 
+                        <span class="ml-1">Yearly</span>
+                    </label>
+                    <label class="flex items-center ml-4">
+                        <input type="radio" name="viewType" value="month" 
+                            onchange="this.form.submit()" {{ $viewType === 'month' ? 'checked' : '' }}>
+                        <span class="ml-1">Monthly</span>
+                    </label>
+                </form>
+
+                <!-- Year Dropdown for Monthly View -->
+                @if ($viewType === 'month')
+                <form action="{{ route('dashboard') }}" method="GET" class="flex items-center ml-4">
+                    <input type="hidden" name="viewType" value="month">
+                    <label for="selectedYear" class="mr-2">Year:</label>
+                    <select name="selectedYear" id="selectedYear" class="border-gray-300 rounded" onchange="this.form.submit()">
                         @for ($year = $minYear; $year <= $maxYear; $year++)
                             <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
                                 {{ $year }}
                             </option>
                         @endfor
                     </select>
-                    <input type="hidden" name="groupBy" value="{{ $groupBy }}">
                 </form>
-                <!-- Group By Selector -->
-                <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-                    <input type="hidden" name="year" value="{{ $selectedYear }}">
-                    <label for="groupBy" class="mr-2">Group By:</label>
-                    <select name="groupBy" id="groupBy" class="border-gray-300 rounded" onchange="this.form.submit()">
-                        <option value="month" {{ $groupBy === 'month' ? 'selected' : '' }}>Month</option>
-                        <option value="year" {{ $groupBy === 'year' ? 'selected' : '' }}>Year</option>
-                    </select>
-                </form>
+                @endif
             </div>
         </div>
-        <div style="overflow: hidden;">
-            <canvas id="financialStatementsChart" style="max-height: 400px;"></canvas>
-        </div>
-    </div>
-
-    <!-- Add Financial Statement Button -->
-    <div class="flex justify-center">
-        <a href="{{ url('/fs/add') }}" class="bg-btlGreen text-white font-bold py-4 px-8 rounded-lg shadow hover:bg-btlRed transition">
-            + Ajouter Etat Financier
-        </a>
+        <canvas id="financialStatementsChart" style="max-height: 400px;"></canvas>
     </div>
 </div>
 
@@ -84,24 +84,18 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('financialStatementsChart').getContext('2d');
-        let financialChart; // Declare a global variable to store the chart instance.
-
-        // Destroy the existing chart if it already exists
-        if (financialChart) {
-            financialChart.destroy();
-        }
 
         // Chart data and labels
-        const labels = {!! json_encode($groupBy === 'month' ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : range($minYear, $maxYear)) !!};
+        const labels = @json($labels);
         const data = @json($chartData);
 
         // Create a new chart instance
-        financialChart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: $groupBy === 'month' ? 'Monthly Financial Statements' : 'Yearly Financial Statements',
+                    label: '{{ $viewType === "month" ? "Monthly Financial Statements" : "Yearly Financial Statements" }}',
                     data: data,
                     backgroundColor: 'rgba(23, 48, 35, 0.8)',
                     borderColor: 'rgba(23, 48, 35, 1)',
@@ -110,7 +104,7 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true, // Maintain aspect ratio to avoid infinite height growth
+                maintainAspectRatio: true,
                 plugins: {
                     legend: {
                         display: false,
@@ -128,7 +122,7 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: '{{ $groupBy === "month" ? "Months" : "Years" }}',
+                            text: '{{ $viewType === "month" ? "Months" : "Years" }}',
                         },
                     },
                     y: {
