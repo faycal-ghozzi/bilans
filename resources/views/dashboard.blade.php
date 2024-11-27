@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Tableau de bord</h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Tableau de bord</h1>
 
     <!-- Metrics Section -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
