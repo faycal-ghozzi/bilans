@@ -66,7 +66,9 @@
                 </form>
             </div>
         </div>
-        <canvas id="financialStatementsChart"></canvas>
+        <div style="overflow: hidden;">
+            <canvas id="financialStatementsChart" style="max-height: 400px;"></canvas>
+        </div>
     </div>
 
     <!-- Add Financial Statement Button -->
@@ -108,7 +110,7 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true, // Maintain aspect ratio to avoid infinite height growth
                 plugins: {
                     legend: {
                         display: false,

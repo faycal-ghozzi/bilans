@@ -86,3 +86,7 @@ h3.title {
 .wizard .actions .disabled {
     display: none;
 }
+
+#financialStatementsChart {
+    max-height: 400px; /* Set a fixed height for the chart canvas */
+}
