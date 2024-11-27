@@ -53,7 +53,9 @@
                             </option>
                         @endfor
                     </select>
+                    <input type="hidden" name="groupBy" value="{{ $groupBy }}">
                 </form>
+
                 <!-- Group By Selector -->
                 <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
                     <input type="hidden" name="year" value="{{ $selectedYear }}">
