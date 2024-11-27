@@ -10,11 +10,28 @@ function saveDatatoDB(formData){
         data: formData,
         processData: false,
         contentType: false,
-        success: function() {
+        success: function(response) {
             console.log('success')
+
+            if(response.redirect_url){
+                window.location.href = response.redirect_url;
+            }
         },
         error: function() {
-            console.log('fail')
+            if(xhr.status === 422){
+                let errors = xhr.responseJSON.errors;
+                let errorMessages = '';
+                for(let field in errors){
+                    errorMessages += `${errors[field].join(', ')}\n`
+                }
+                alert('Validation failed:\n' + errorMessages)
+            }else if (xhr.status === 500){
+                alert('An unexpected error occurred. Please try again later');
+            }else{
+                alert('An error occurred. Please check your input and try again');
+            }
+
+            console.error('Error response: ', xhr.responseJSON);
         }
     })
 }

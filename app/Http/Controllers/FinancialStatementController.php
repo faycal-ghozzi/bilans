@@ -8,6 +8,9 @@ use App\Models\Company;
 use App\Models\FinancialStatementFile;
 use App\Models\FinancialStatement;
 use App\Services\FinancialStatementService;
+use Illuminate\Validation\ValidationException;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class FinancialStatementController extends Controller
 {
@@ -102,38 +105,55 @@ class FinancialStatementController extends Controller
      */
     public function store(Request $request)
     {
-        $cleanedRequestData = $this->cleanNumericFields($request->all());
-        $request->merge($cleanedRequestData);
 
-        $validatedStatic = $request->validate([
-            'company_name' => 'required|string|max:255',
-            'current_year' => 'required|date',
-            'file' => 'required|file|mimes:pdf|max:2048',
-        ]);
+        try{
+            $cleanedRequestData = $this->cleanNumericFields($request->all());
+            $request->merge($cleanedRequestData);
 
-        $dynamicRules = [];
-        foreach (['actifs', 'capitaux', 'passifs', 'resultats'] as $category) {
-            if ($request->has($category)) {
-                foreach ($request->$category as $id => $values) {
-                    foreach ($values as $year => $value) {
-                        $fieldKey = "{$category}.{$id}.{$year}";
-                        $dynamicRules[$fieldKey] = 'nullable|numeric';
+            $validatedStatic = $request->validate([
+                'company_name' => 'required|string|max:255',
+                'current_year' => 'required|date',
+                'file' => 'required|file|mimes:pdf|max:2048',
+            ]);
+
+            $dynamicRules = [];
+            foreach (['actifs', 'capitaux', 'passifs', 'resultats'] as $category) {
+                if ($request->has($category)) {
+                    foreach ($request->$category as $id => $values) {
+                        foreach ($values as $year => $value) {
+                            $fieldKey = "{$category}.{$id}.{$year}";
+                            $dynamicRules[$fieldKey] = 'nullable|numeric';
+                        }
                     }
                 }
             }
+
+            $validatedDynamic = $request->validate($dynamicRules);
+            $filePath = $request->file('file')->store('uploads', 'public');
+
+            $company = Company::firstOrCreate(['name' => $validatedStatic['company_name']]);
+
+            $this->saveFile($filePath, $company, $validatedStatic['current_year']);
+
+            $this->saveData($validatedDynamic, $company, $validatedStatic['current_year']);
+
+            return response()->json([
+                'message' => 'Data saved successfully!',
+                'redirect_url' => url('/fs/all'),
+            ], 200);
+        }catch (ValidationException $e){
+            return response()->json([
+                'message' => 'Validation failed!',
+                'errors' => $e->errors(),
+            ], 422);
+        }catch(Exception $e){
+            Log::error('Error saving data: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'An unexpected error occurred. Please try again later'
+            ], 500);
         }
-
-        $validatedDynamic = $request->validate($dynamicRules);
-        // TODO : check file upload
-        $filePath = $request->file('file')->store('uploads', 'public');
-
-        $company = Company::firstOrCreate(['name' => $validatedStatic['company_name']]);
-
-        $this->saveFile($filePath, $company, $validatedStatic['current_year']);
-
-        $this->saveData($validatedDynamic, $company, $validatedStatic['current_year']);
-
-        return response()->json(['message' => 'Data saved successfully!']);
+        
     }
 
     /**

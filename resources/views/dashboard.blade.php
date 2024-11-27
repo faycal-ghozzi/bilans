@@ -1,17 +1,11 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
+@section('content')
+    <div class="bg-white p-8 shadow-md rounded-lg ">
+        <h2 class="text-2xl font-bold mb-8 text-center col-secondary">
+            Bienvenue au Centrale des Bilans
+        </h2>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit distinctio quam, labore sint corporis et rem natus totam, neque maiores veniam voluptate? Quae tempore perspiciatis neque dolores laudantium, eligendi esse.</p>
     </div>
-</x-app-layout>
+@endsection
