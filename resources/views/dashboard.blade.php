@@ -82,13 +82,19 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const ctx = document.getElementById('financialStatementsChart').getContext('2d');
+        let financialChart; // Declare a global variable to store the chart instance.
+
+        // Destroy the existing chart if it already exists
+        if (financialChart) {
+            financialChart.destroy();
+        }
 
         // Chart data and labels
         const labels = {!! json_encode($groupBy === 'month' ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : range($minYear, $maxYear)) !!};
         const data = @json($chartData);
 
-        // Chart configuration
-        const chart = new Chart(ctx, {
+        // Create a new chart instance
+        financialChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
