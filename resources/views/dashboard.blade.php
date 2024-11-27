@@ -55,7 +55,6 @@
                     </select>
                     <input type="hidden" name="groupBy" value="{{ $groupBy }}">
                 </form>
-
                 <!-- Group By Selector -->
                 <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
                     <input type="hidden" name="year" value="{{ $selectedYear }}">
@@ -81,32 +80,62 @@
 <!-- Chart.js Integration -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const ctx = document.getElementById('financialStatementsChart').getContext('2d');
-    const chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: {{ $groupBy === 'month' ? "['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']" : json_encode(range($minYear, $maxYear)) }},
-            datasets: [{
-                label: 'Financial Statements',
-                data: @json($chartData),
-                backgroundColor: 'rgba(23, 48, 35, 0.8)',
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('financialStatementsChart').getContext('2d');
+
+        // Chart data and labels
+        const labels = {!! json_encode($groupBy === 'month' ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] : range($minYear, $maxYear)) !!};
+        const data = @json($chartData);
+
+        // Chart configuration
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Financial Statements',
+                    data: data,
+                    backgroundColor: 'rgba(23, 48, 35, 0.8)',
+                    borderColor: 'rgba(23, 48, 35, 1)',
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.raw} Statements`;
+                            }
+                        }
+                    }
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            return context.raw + ' Statements';
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: '{{ $groupBy === "month" ? "Months" : "Years" }}',
+                        },
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Statements',
+                        },
+                        ticks: {
+                            stepSize: 1,
                         }
                     }
                 }
             }
-        }
+        });
     });
 </script>
 @endsection
