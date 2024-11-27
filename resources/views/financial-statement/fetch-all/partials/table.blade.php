@@ -13,8 +13,8 @@
                 <td class="px-6 py-4 text-gray-700">{{ $statement->company->name }}</td>
                 <td class="px-6 py-4 text-gray-700">{{ $statement->date }}</td>
                 <td class="px-6 py-4">
-                    <a href="{{ asset($statement->file_path) }}" target="_blank" class="text-btlRed underline hover:text-red-600">
-                        Télecharger
+                    <a href="{{ route('financial-statement.download', ['id' => $statement->id]) }}" target="_blank" class="text-btlRed underline hover:text-red-600">
+                        Télécharger
                     </a>
                 </td>
                 <td class="px-6 py-4">

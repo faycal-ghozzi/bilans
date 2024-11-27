@@ -5,6 +5,7 @@ use App\Http\Controllers\FinancialAnalysisController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FinancialStatementController;
+use App\Http\Controllers\FinancialStatementFileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/financial-statement/download/{id}', [FinancialStatementFileController::class, 'download'])->middleware(['auth', 'verified'])->name('financial-statement.download');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
