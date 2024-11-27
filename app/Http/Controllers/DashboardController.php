@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $totalFinancialStatements = FinancialStatementFile::count();
 
         // Date range for financial statements
-        $minYear = FinancialStatementFile::min('created_at') ? Carbon::parse(FinancialStatementFile::min('created_at'))->year : Carbon::now()->year;
+        $minYear = FinancialStatementFile::min('date') ? Carbon::parse(FinancialStatementFile::min('date'))->year : Carbon::now()->year;
         $maxYear = Carbon::now()->year;
 
         // Year and grouping type from request
@@ -28,10 +28,10 @@ class DashboardController extends Controller
         // Data for graph
         $financialStatements = FinancialStatementFile::selectRaw(
             $groupBy === 'month' 
-                ? 'MONTH(created_at) as period, COUNT(*) as count' 
-                : 'YEAR(created_at) as period, COUNT(*) as count'
+                ? 'MONTH(date) as period, COUNT(*) as count' 
+                : 'YEAR(date) as period, COUNT(*) as count'
         )
-        ->whereYear('created_at', $selectedYear)
+        ->whereYear('date', $selectedYear)
         ->groupBy('period')
         ->orderBy('period')
         ->get()
