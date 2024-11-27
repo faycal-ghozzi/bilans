@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+    <h1 class="text-2xl font-bold mb-6">Tableau de bord</h1>
 
     <!-- Metrics Section -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <!-- Total Companies -->
         <div class="bg-btlGreen text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">Total Companies</h2>
+                <h2 class="text-lg font-semibold mb-4">Total des entreprises</h2>
                 <p class="text-4xl font-bold">{{ $totalCompanies }}</p>
             </div>
             <div>
@@ -19,7 +19,7 @@
         <!-- Total Financial Statements -->
         <div class="bg-blue-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">Total Financial Statements</h2>
+                <h2 class="text-lg font-semibold mb-4">États financiers totaux</h2>
                 <p class="text-4xl font-bold">{{ $totalFinancialStatements }}</p>
             </div>
             <div>
@@ -29,7 +29,7 @@
         <!-- Total Users -->
         <div class="bg-indigo-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">Total Users</h2>
+                <h2 class="text-lg font-semibold mb-4">Nombre total d'utilisateurs</h2>
                 <p class="text-4xl font-bold">{{ $totalUsers }}</p>
             </div>
             <div>
@@ -41,7 +41,7 @@
     <!-- Graph Section -->
     <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold">Financial Statements Overview</h2>
+            <h2 class="text-lg font-semibold">Aperçu des états financiers</h2>
             <div class="flex items-center gap-4">
                 <!-- Switch -->
                 <div class="flex items-center">
@@ -50,7 +50,7 @@
                         <span class="slider"></span>
                     </label>
                     <span class="ml-3 text-sm font-medium">
-                        {{ $viewType === 'month' ? 'Monthly' : 'Yearly' }}
+                        {{ $viewType === 'month' ? 'Mensuel' : 'Annuel' }}
                     </span>
                 </div>
                 <!-- Year Dropdown for Monthly View -->
@@ -69,12 +69,11 @@
                 @endif
             </div>
         </div>
-        <canvas id="financialStatementsChart" style="max-height: 400px;"></canvas>
+        <canvas id="financialStatementsChart" style="max-height: 600px;"></canvas>
     </div>
 </div>
 
 <!-- Chart.js Integration -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const toggle = document.getElementById('viewTypeToggle');
@@ -98,7 +97,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '{{ $viewType === "month" ? "Monthly Financial Statements" : "Yearly Financial Statements" }}',
+                    label: '{{ $viewType === "month" ? "États financiers mensuels" : "États financiers annuels" }}',
                     data: data,
                     backgroundColor: 'rgba(23, 48, 35, 0.8)',
                     borderColor: 'rgba(23, 48, 35, 1)',
@@ -115,7 +114,7 @@
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return `${context.raw} Statements`;
+                                return context.raw === 1 ? `${context.raw} État financier` : `${context.raw} États financiers`;
                             }
                         }
                     }
@@ -125,17 +124,17 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: '{{ $viewType === "month" ? "Months" : "Years" }}',
+                            text: '{{ $viewType === "month" ? "Mois" : "Années" }}',
                         },
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Statements',
+                            text: 'Nombre d\'états financiers',
                         },
                         ticks: {
-                            stepSize: 1,
+                            stepSize: 2,
                         }
                     }
                 }

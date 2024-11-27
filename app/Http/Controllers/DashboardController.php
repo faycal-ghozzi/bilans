@@ -47,7 +47,7 @@ class DashboardController extends Controller
                 ->get()
                 ->keyBy('period');
 
-            $labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            $labels = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov', 'Déc'];
             $chartData = [];
             for ($i = 1; $i <= 12; $i++) {
                 $chartData[] = $financialStatements->get($i)->count ?? 0;

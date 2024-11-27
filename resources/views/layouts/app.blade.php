@@ -15,6 +15,8 @@
         @vite('resources/js/cdn-scripts/jquery-3.6.0.js')
         @vite('resources/js/cdn-scripts/jquery-steps.js')
         @vite('resources/js/cdn-scripts/jquery-validate.js')
+        @vite('resources/js/cdn-scripts/chart.js')
+        @vite('resources/js/chart-extension.js')
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @vite('resources/js/stepper_conf.js')
         @vite('resources/js/calc_actifs.js')

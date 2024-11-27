@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" class="flex items-center px-4 py-4 hover:bg-btlRed hover:text-white {{ request()->is('download-path*') ? 'text-btlGreen bg-white' : 'text-white'}}">
+                <a href="#" class="flex items-center px-4 py-4 text-white hover:bg-btlRed hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <!-- Download Icon -->
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4" />
