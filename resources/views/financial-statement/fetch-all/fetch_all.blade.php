@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container mx-auto px-4">
-    <h1 class="text-2xl font-bold mb-6 text-btlGreen">Financial Statements</h1>
+    <h1 class="text-2xl font-bold mb-6 text-btlGreen">Liste des états financiers</h1>
 
     <!-- Search and Filter Form -->
     <form id="filterForm" method="GET" action="{{ route('financial-statement.fetch_all') }}" class="mb-6 flex space-x-4">
@@ -10,7 +10,7 @@
             id="search"
             name="search"
             value="{{ request('search') }}"
-            placeholder="Search by Company Name"
+            placeholder="Recherche par nom"
             class="border border-gray-300 rounded-lg px-4 py-2 w-3/4 shadow-sm focus:ring focus:ring-btlRed"
         >
         <input

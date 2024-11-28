@@ -57,7 +57,7 @@
                 @if ($viewType === 'month')
                 <form action="{{ route('dashboard') }}" method="GET" class="flex items-center ml-4">
                     <input type="hidden" name="viewType" value="month">
-                    <label for="selectedYear" class="mr-2">Year:</label>
+                    <label for="selectedYear" class="mr-2">Année:</label>
                     <select name="selectedYear" id="selectedYear" class="border-gray-300 rounded" onchange="this.form.submit()">
                         @for ($year = $minYear; $year <= $maxYear; $year++)
                             <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
