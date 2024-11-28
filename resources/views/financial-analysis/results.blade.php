@@ -10,7 +10,6 @@
             <h1 class="text-2xl font-bold mb-6 text-center">Analyse Financière</h1>
 
             <div class="grid grid-cols-2 gap-4">
-                <!-- Profitability Ratios -->
                 <div>
                     <h2 class="text-xl font-semibold mb-4">Ratios de Rentabilité</h2>
                     <ul>
@@ -22,7 +21,6 @@
                     </ul>
                 </div>
 
-                <!-- Financial Structure Ratios -->
                 <div>
                     <h2 class="text-xl font-semibold mb-4">Ratios de Structure Financière</h2>
                     <ul>
@@ -35,7 +33,6 @@
                     </ul>
                 </div>
 
-                <!-- Liquidity Ratios -->
                 <div>
                     <h2 class="text-xl font-semibold mb-4">Ratios de Liquidité</h2>
                     <ul>
@@ -45,7 +42,6 @@
                     </ul>
                 </div>
 
-                <!-- Indebtedness Ratios -->
                 <div>
                     <h2 class="text-xl font-semibold mb-4">Ratios d'Endettement</h2>
                     <ul>
@@ -57,7 +53,6 @@
                     </ul>
                 </div>
 
-                <!-- Solvency Ratios -->
                 <div>
                     <h2 class="text-xl font-semibold mb-4">Ratios de Solvabilité</h2>
                     <ul>

@@ -154,6 +154,4 @@ class FinancialRatioService
 
         return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
     }
-
-
 }

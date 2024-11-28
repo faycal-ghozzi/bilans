@@ -4,9 +4,7 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-2xl font-bold mb-6 text-center">Tableau de bord</h1>
 
-    <!-- Metrics Section -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- Total Companies -->
         <div class="bg-btlGreen text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
                 <h2 class="text-lg font-semibold mb-4">Total des entreprises</h2>
@@ -16,7 +14,6 @@
                 <i class="fas fa-building text-5xl opacity-50"></i>
             </div>
         </div>
-        <!-- Total Financial Statements -->
         <div class="bg-blue-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
                 <h2 class="text-lg font-semibold mb-4">États financiers totaux</h2>
@@ -26,7 +23,6 @@
                 <i class="fas fa-file-alt text-5xl opacity-50"></i>
             </div>
         </div>
-        <!-- Total Users -->
         <div class="bg-indigo-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
                 <h2 class="text-lg font-semibold mb-4">Nombre total d'utilisateurs</h2>
@@ -38,12 +34,10 @@
         </div>
     </div>
 
-    <!-- Graph Section -->
     <div class="bg-white shadow-lg rounded-lg p-6 mb-8">
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold">Aperçu des états financiers</h2>
             <div class="flex items-center gap-4">
-                <!-- Switch -->
                 <div class="flex items-center">
                     <label class="switch">
                         <input type="checkbox" id="viewTypeToggle" {{ $viewType === 'month' ? 'checked' : '' }}>
@@ -53,7 +47,6 @@
                         {{ $viewType === 'month' ? 'Mensuel' : 'Annuel' }}
                     </span>
                 </div>
-                <!-- Year Dropdown for Monthly View -->
                 @if ($viewType === 'month')
                 <form action="{{ route('dashboard') }}" method="GET" class="flex items-center ml-4">
                     <input type="hidden" name="viewType" value="month">
@@ -73,12 +66,10 @@
     </div>
 </div>
 
-<!-- Chart.js Integration -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const toggle = document.getElementById('viewTypeToggle');
 
-        // Handle toggle switch
         toggle.addEventListener('change', function () {
             const isMonthly = toggle.checked;
             const viewType = isMonthly ? 'month' : 'year';
@@ -86,12 +77,10 @@
             window.location.href = `${baseUrl}?viewType=${viewType}`;
         });
 
-        // Chart data and labels
         const ctx = document.getElementById('financialStatementsChart').getContext('2d');
         const labels = @json($labels);
         const data = @json($chartData);
 
-        // Create a new chart instance
         new Chart(ctx, {
             type: 'bar',
             data: {

@@ -7,11 +7,9 @@
 
         <title>{{ config('app.name', 'BTL-Synthèse') }}</title>
         <link rel="icon" type="image/png" sizes="32x32" href={{ asset('images/favicon.png') }}>
-        <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
         @vite('resources/js/cdn-scripts/jquery-3.6.0.js')
         @vite('resources/js/cdn-scripts/jquery-steps.js')
         @vite('resources/js/cdn-scripts/jquery-validate.js')
@@ -27,20 +25,16 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex flex-col">
-            <!-- Navigation Bar -->
             <div class="sticky top-0 z-50 bg-[rgb(23,48,35)] shadow">
                 @include('layouts.navigation')
             </div>
     
             <div class="flex flex-1">
-                <!-- Sidebar -->
                 @if(View::hasSection('sidebar'))
                     @yield('sidebar')
                 @endif
     
-                <!-- Main Content Area -->
                 <div class="flex-1 @hasSection('sidebar') ml-64 @endif">
-                    <!-- Page Heading -->
                     @if (isset($header))
                         <header class="bg-white shadow">
                             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -49,7 +43,6 @@
                         </header>
                     @endif
     
-                    <!-- Page Content -->
                     <main class="container mx-auto py-8">
                         @yield('content')
                     </main>

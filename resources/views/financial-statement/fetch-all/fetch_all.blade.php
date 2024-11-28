@@ -3,7 +3,6 @@
 <div class="container mx-auto px-4">
     <h1 class="text-2xl font-bold mb-6 text-btlGreen">Liste des états financiers</h1>
 
-    <!-- Search and Filter Form -->
     <form id="filterForm" method="GET" action="{{ route('financial-statement.fetch_all') }}" class="mb-6 flex space-x-4">
         <input
             type="text"
@@ -31,12 +30,10 @@
         >
     </form>
 
-    <!-- Table -->
     <div id="results" class="overflow-x-auto bg-white rounded-lg shadow-md">
         @include('financial-statement.fetch-all.partials.table', ['financialStatements' => $financialStatements])
     </div>
 
-    <!-- Pagination -->
     <div id="pagination" class="mt-4">
         {{ $financialStatements->links() }}
     </div>

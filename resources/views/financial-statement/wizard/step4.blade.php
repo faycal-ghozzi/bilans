@@ -24,7 +24,7 @@
                 
                 <input type="text" name="resultats[{{ $resultat->id }}][n]"
                        id="resultats_{{ strtolower(str_replace([' ', '\'', '(', ')', '/'], ['_', '', '', '', '_'], $resultat->label)) }}_n"
-                       placeholder="" {{-- required --}}
+                       placeholder=""
                        class="px-4 py-2 border rounded-md w-full text-right number" 
                        {{ str_contains(strtolower($resultat->label), 'total') || str_contains(strtolower($resultat->label), 'résultat')  ? 'disabled' : ''}}
                        data-role="{{ $resultat->role }}"
@@ -32,7 +32,7 @@
                        />
                 <input type="text" name="resultats[{{ $resultat->id }}][n-1]"
                        id="resultats_{{ strtolower(str_replace([' ', '\'', '(', ')', '/'], ['_', '', '', '', '_'], $resultat->label)) }}_n-1"
-                       placeholder="" {{-- required --}}
+                       placeholder=""
                        class="px-4 py-2 border rounded-md w-full text-right number" 
                        {{ str_contains(strtolower($resultat->label), 'total') || str_contains(strtolower($resultat->label), 'résultat') ? 'disabled' : ''}}
                        data-role="{{ $resultat->role }}"

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Company;
 
 class FinancialStatementFile extends Model
 {
@@ -16,5 +17,5 @@ class FinancialStatementFile extends Model
 
     public function company()
     {
-        return $this->belongsTo(\App\Models\Company::class);
+        return $this->belongsTo(Company::class);
     }}

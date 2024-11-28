@@ -36,16 +36,6 @@ class FinancialStatementController extends Controller
         return view('financial-statement.create', compact('actifs', 'capitaux', 'passifs', 'resultats'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
     private function cleanNumericFields(array $data)
     {
         foreach ($data as $key => $value) {
@@ -156,9 +146,6 @@ class FinancialStatementController extends Controller
         
     }
 
-    /**
-     * Display All resources
-     */
     public function fetchAll(Request $request)
     {
         $search = $request->input('search');
@@ -198,39 +185,5 @@ class FinancialStatementController extends Controller
         $data = $this->financialStatementService->getFinancialStatementDetails($id);
 
         return view('financial-statement.show', $data);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }
