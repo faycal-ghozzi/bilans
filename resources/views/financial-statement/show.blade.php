@@ -6,14 +6,15 @@
 
 @section('content')
 <div class="container mx-auto px-10">
-    <div class="bg-white p-8 shadow-md rounded-lg ">
+    <div class="bg-white p-8 shadow-md rounded-lg">
         <h1 class="text-2xl font-bold text-center mb-6">État Financier de {{ $file->company->name }}</h1>
         <p class="mb-4 text-center"><strong>{{ $file->date }}</strong></p>
-        <div class="grid grid-cols-5 gap-4 items-center">
-            <div class="text-lg font-semibold text-center col-start-2">N</div>
-            <div class="text-lg font-semibold text-center">N-1</div>
-            <div class="text-lg font-semibold text-center">Évolution Absolue</div>
-            <div class="text-lg font-semibold text-center">Évolution en %</div>
+        <div class="grid grid-cols-5 gap-4 items-center font-semibold text-center">
+            <div>Label</div>
+            <div>N</div>
+            <div>N-1</div>
+            <div>Évolution Absolue</div>
+            <div>Évolution en %</div>
         </div>
         @foreach ($categories as $category => $entries)
         <section class="mb-6">
@@ -23,11 +24,15 @@
                 $previousEntry = null;
             @endphp
             @foreach ($entries as $entry)
-            <div class="grid grid-cols-5 gap-4 items-center {{ $entry->decoration == 'stripe' ? 'bg-gray-200' : '' }}">
+            <div 
+                class="grid grid-cols-5 gap-4 items-center 
+                    {{ $entry->decoration == 'stripe' ? 'bg-btlGreen text-white' : ($loop->even ? 'bg-gray-100' : 'bg-white') }}">
+                
+                <!-- Label -->
                 <div class="{{ $entry->decoration == 'bold' ? 'font-bold' : '' }}">
                     {{ $entry->label }}
                 </div>
-                
+
                 <!-- Current Year Value (N) -->
                 <div class="text-center {{ $entry->decoration == 'bold' ? 'font-bold' : '' }}">
                     @php
