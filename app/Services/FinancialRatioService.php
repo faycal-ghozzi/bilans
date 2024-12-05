@@ -222,4 +222,13 @@ class FinancialRatioService
         ];
     }
 
+    private function calculateEBITDA($data)
+    {
+        // Retrieve necessary values
+        $resultatExploitation = $this->getValueByLabel($data, 'Résultat d\'exploitation'); // Operating income
+        $dotations = $this->getValueByLabel($data, 'Dotations aux amortissements et aux provisions'); // Depreciation and provisions
+
+        // Calculate EBITDA
+        return $resultatExploitation + $dotations;
+    }
 }
