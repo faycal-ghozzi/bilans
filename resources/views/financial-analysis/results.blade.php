@@ -5,62 +5,79 @@
 @endsection
 
 @section('content')
-    <div class="container mx-auto p-8">
-        <div class="bg-white p-8 shadow-md rounded-lg ">
-            <h1 class="text-2xl font-bold mb-6 text-center">Analyse Financière</h1>
+<div class="container mx-auto p-8">
+    <div class="bg-white p-8 shadow-md rounded-lg">
+        <h1 class="text-2xl font-bold mb-6 text-center">Analyse Financière</h1>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ratios de Rentabilité</h2>
-                    <ul>
-                        <li>Retour sur capitaux propres (Résultat d'exploitation) : {{ number_format($ratios['profitability']['operating_return_on_equity'], 2) }}</li>
-                        <li>Retour sur capitaux propres (Résultat net) : {{ number_format($ratios['profitability']['net_return_on_equity'], 2) }}</li>
-                        <li>EBE / CA : {{ number_format($ratios['profitability']['ebe_to_revenue'], 2) }}</li>
-                        <li>Résultat net / CA : {{ number_format($ratios['profitability']['net_return_on_revenue'], 2) }}</li>
-                        <li>CAF / CA : {{ number_format($ratios['profitability']['caf_to_revenue'], 2) }}</li>
-                    </ul>
-                </div>
+        <table class="w-full border-collapse bg-white rounded-lg shadow">
+            <thead class="bg-btlGreen text-white">
+                <tr>
+                    <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Catégorie</th>
+                    <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Ratio</th>
+                    <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Valeur</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <!-- Ratios de Rentabilité -->
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td class="px-6 py-4 font-bold">Ratios de Rentabilité</td>
+                    <td class="px-6 py-4">Retour sur capitaux propres (Résultat d'exploitation)</td>
+                    <td class="px-6 py-4">{{ number_format($ratios['profitability']['operating_return_on_equity'], 2) }}</td>
+                </tr>
+                <tr class="bg-white hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Retour sur capitaux propres (Résultat net)</td>
+                    <td>{{ number_format($ratios['profitability']['net_return_on_equity'], 2) }}</td>
+                </tr>
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>EBE / CA</td>
+                    <td>{{ number_format($ratios['profitability']['ebe_to_revenue'], 2) }}</td>
+                </tr>
+                <tr class="bg-white hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Résultat net / CA</td>
+                    <td>{{ number_format($ratios['profitability']['net_return_on_revenue'], 2) }}</td>
+                </tr>
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>CAF / CA</td>
+                    <td>{{ number_format($ratios['profitability']['caf_to_revenue'], 2) }}</td>
+                </tr>
 
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ratios de Structure Financière</h2>
-                    <ul>
-                        <li>Ressources stables - Actifs immobilisés : {{ number_format($ratios['financial_structure']['stable_resources_minus_fixed_assets'], 2) }}</li>
-                        <li>Actif circulant - Passif circulant : {{ number_format($ratios['financial_structure']['working_capital'], 2) }}</li>
-                        <li>FR - BFR : {{ number_format($ratios['financial_structure']['fr_bfr'], 2) }}</li>
-                        <li>Encours clients / CA (en jours) : {{ number_format($ratios['financial_structure']['client_turnover'], 2) }}</li>
-                        <li>Stocks / Achats TTC (en jours) : {{ number_format($ratios['financial_structure']['stock_turnover'], 2) }}</li>
-                        <li>Dettes fournisseurs / Achats TTC (en jours) : {{ number_format($ratios['financial_structure']['supplier_payment_period'], 2) }}</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ratios de Liquidité</h2>
-                    <ul>
-                        <li>Liquidité générale : {{ number_format($ratios['liquidity']['current_liquidity'], 2) }}</li>
-                        <li>Liquidité réduite : {{ number_format($ratios['liquidity']['quick_ratio'], 2) }}</li>
-                        <li>Liquidité de trésorerie : {{ number_format($ratios['liquidity']['cash_ratio'], 2) }}</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ratios d'Endettement</h2>
-                    <ul>
-                        <li>Charges financières / CA : {{ number_format($ratios['indebtedness']['financial_charges_to_revenue'], 2) }}</li>
-                        <li>Charges financières / EBE : {{ number_format($ratios['indebtedness']['financial_charges_to_ebe'], 2) }}</li>
-                        <li>Dettes financières / Capitaux propres : {{ number_format($ratios['indebtedness']['financial_debt_to_equity'], 2) }}</li>
-                        <li>EBITDA / Charges financières : {{ number_format($ratios['indebtedness']['ebitda_to_financial_charges'], 2) }}</li>
-                        <li>Dettes financières / EBITDA : {{ number_format($ratios['indebtedness']['financial_debt_to_ebitda'], 2) }}</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h2 class="text-xl font-semibold mb-4">Ratios de Solvabilité</h2>
-                    <ul>
-                        <li>Capitaux propres / Ressources stables : {{ number_format($ratios['solvency']['equity_to_stable_resources'], 2) }}</li>
-                        <li>Capitaux propres / Total du bilan : {{ number_format($ratios['solvency']['equity_to_total_assets'], 2) }}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+                <!-- Ratios de Structure Financière -->
+                <tr class="bg-btlGreen text-white hover:bg-green-600 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td class="px-6 py-4 font-bold">Ratios de Structure Financière</td>
+                    <td class="px-6 py-4">Ressources stables - Actifs immobilisés</td>
+                    <td class="px-6 py-4">{{ number_format($ratios['financial_structure']['stable_resources_minus_fixed_assets'], 2) }}</td>
+                </tr>
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Actif circulant - Passif circulant</td>
+                    <td>{{ number_format($ratios['financial_structure']['working_capital'], 2) }}</td>
+                </tr>
+                <tr class="bg-white hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>FR - BFR</td>
+                    <td>{{ number_format($ratios['financial_structure']['fr_bfr'], 2) }}</td>
+                </tr>
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Encours clients / CA (en jours)</td>
+                    <td>{{ number_format($ratios['financial_structure']['client_turnover'], 2) }}</td>
+                </tr>
+                <tr class="bg-white hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Stocks / Achats TTC (en jours)</td>
+                    <td>{{ number_format($ratios['financial_structure']['stock_turnover'], 2) }}</td>
+                </tr>
+                <tr class="bg-gray-100 hover:bg-gray-200 transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                    <td></td>
+                    <td>Dettes fournisseurs / Achats TTC (en jours)</td>
+                    <td>{{ number_format($ratios['financial_structure']['supplier_payment_period'], 2) }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 @endsection
