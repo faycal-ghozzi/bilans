@@ -2,7 +2,7 @@
     <thead class="bg-btlGreen text-white">
         <tr>
             <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Dénomination sociale</th>
-            <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Date État Financier</th>
+            <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Date États Financiers</th>
             <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Document attaché</th>
             <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Détails</th>
         </tr>
@@ -26,7 +26,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="4" class="text-center py-4 text-gray-500">Aucun état financier trouvé.</td>
+                <td colspan="4" class="text-center py-4 text-gray-500">Pas d'états financiers trouvé.</td>
             </tr>
         @endforelse
     </tbody>

@@ -7,10 +7,10 @@
 @section('content')
 <div class="container mx-auto px-10">
     <div class="bg-white p-8 shadow-md rounded-lg">
-        <h1 class="text-2xl font-bold text-center mb-6">État Financier de {{ $file->company->name }}</h1>
+        <h1 class="text-2xl font-bold text-center mb-6">États Financiers de {{ $file->company->name }}</h1>
         <p class="mb-4 text-center"><strong>{{ $file->date }}</strong></p>
         <div class="grid grid-cols-5 gap-4 items-center font-semibold text-center">
-            <div>Label</div>
+            <div></div>
             <div>N</div>
             <div>N-1</div>
             <div>Évolution Absolue</div>
@@ -62,7 +62,7 @@
                 </div>
 
                 <!-- Absolute Evolution -->
-                <div class="text-center">
+                <div class="text-center {{ $entry->decoration == 'bold' ? 'font-bold' : '' }}">
                     @php
                         $absoluteEvolution = $currentValue !== null && $previousValue !== null 
                             ? $currentValue - $previousValue 
@@ -72,7 +72,7 @@
                 </div>
 
                 <!-- Percentage Evolution -->
-                <div class="text-center">
+                <div class="text-center {{ $entry->decoration == 'bold' ? 'font-bold' : '' }}">
                     @php
                         $percentageEvolution = $currentValue !== null && $previousValue !== null && $previousValue != 0
                             ? (($currentValue - $previousValue) / $previousValue) * 100

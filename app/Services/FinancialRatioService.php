@@ -28,7 +28,7 @@ class FinancialRatioService
 
         return [
             'rentabilité' => $this->calculerRatiosRentabilite($donneesN, $donneesNMoins1),
-            'structure_financière' => $this->calculerRatiosStructureFinanciere($donneesN, $donneesNMoins1),
+            'structure financière' => $this->calculerRatiosStructureFinanciere($donneesN, $donneesNMoins1),
             'liquidité' => $this->calculerRatiosLiquidite($donneesN, $donneesNMoins1),
             'endettement' => $this->calculerRatiosEndettement($donneesN, $donneesNMoins1),
             'solvabilité' => $this->calculerRatiosSolvabilite($donneesN, $donneesNMoins1),
@@ -82,28 +82,28 @@ class FinancialRatioService
             'n-1' => $this->getValeurParId($donneesNMoins1, 38),
         ];
 
-        $caf = [
-            'n' => $this->calculateCAF($donneesN),
-            'n-1' => $this->calculateCAF($donneesNMoins1),
-        ];
+        // $caf = [
+        //     'n' => $this->calculateCAF($donneesN),
+        //     'n-1' => $this->calculateCAF($donneesNMoins1),
+        // ];
 
         return [
-            'retour_exploitation' => $this->calculerEvolutions(
+            'Retour exploitation' => $this->calculerEvolutions(
                 $capitauxPropres['n'] + $dettesFinancieres['n'] ? $resultatExploitation['n'] / ($capitauxPropres['n'] + $dettesFinancieres['n']) : 0,
                 $capitauxPropres['n-1'] + $dettesFinancieres['n-1'] ? $resultatExploitation['n-1'] / ($capitauxPropres['n-1'] + $dettesFinancieres['n-1']) : 0
             ),
-            'retour_net_capitaux_propres' => $this->calculerEvolutions(
+            'Retour net capitaux propres' => $this->calculerEvolutions(
                 $capitauxPropres['n'] ? $resultatExploitation['n'] / $capitauxPropres['n'] : 0,
                 $capitauxPropres['n-1'] ? $resultatExploitation['n-1'] / $capitauxPropres['n-1'] : 0
             ),
-            'ebe_ca' => $this->calculerEvolutions(
-                $ca['n'] ? $ebe['n'] / $ca['n'] : 0,
-                $ca['n-1'] ? $ebe['n-1'] / $ca['n-1'] : 0
-            ),
-            'caf_ca' => $this->calculerEvolutions(
-                $ca['n'] ? $caf['n'] / $ca['n'] : 0,
-                $ca['n-1'] ? $caf['n-1'] / $ca['n-1'] : 0
-            ),
+            // 'ebe_ca' => $this->calculerEvolutions(
+            //     $ca['n'] ? $ebe['n'] / $ca['n'] : 0,
+            //     $ca['n-1'] ? $ebe['n-1'] / $ca['n-1'] : 0
+            // ),
+            // 'caf_ca' => $this->calculerEvolutions(
+            //     $ca['n'] ? $caf['n'] / $ca['n'] : 0,
+            //     $ca['n-1'] ? $caf['n-1'] / $ca['n-1'] : 0
+            // ),
         ];
     }
 
@@ -140,21 +140,21 @@ class FinancialRatioService
         ];
 
         return [
-            'ressources_stables_actifs_immobilises' => $this->calculerEvolutions($fr['n'], $fr['n-1']),
-            'actif_circulant_passif_circulant' => $this->calculerEvolutions($bfr['n'], $bfr['n-1']),
+            'Ressources stables actifs immobilises' => $this->calculerEvolutions($fr['n'], $fr['n-1']),
+            'Actif circulant passif circulant' => $this->calculerEvolutions($bfr['n'], $bfr['n-1']),
         ];
     }
 
-    private function calculateCAF($data)
-    {
-        $resultatNet = $this->getValeurParId($data, 58); // ID Résultat net de l'exercice
-        $dotations = $this->getValeurParId($data, 46); // ID Dotations aux amortissements et aux provisions
-        $reprises = $this->getValeurParId($data, 'Reprises sur provisions'); // to verify
-        $produitsCession = $this->getValeurParId($data, 'Produits de cession d\'immobilisations'); // to verify
-        $valeursComptables = $this->getValeurParId($data, 'Valeurs comptables des immobilisations cédées'); // to verify
+    // private function calculateCAF($data)
+    // {
+    //     $resultatNet = $this->getValeurParId($data, 58); // ID Résultat net de l'exercice
+    //     $dotations = $this->getValeurParId($data, 46); // ID Dotations aux amortissements et aux provisions
+    //     $reprises = $this->getValeurParId($data, 'Reprises sur provisions'); // to verify
+    //     $produitsCession = $this->getValeurParId($data, 'Produits de cession d\'immobilisations'); // to verify
+    //     $valeursComptables = $this->getValeurParId($data, 'Valeurs comptables des immobilisations cédées'); // to verify
 
-        return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
-    }
+    //     return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
+    // }
 
     private function calculerRatiosLiquidite($donneesN, $donneesNMoins1)
     {
@@ -179,15 +179,15 @@ class FinancialRatioService
         ];
 
         return [
-            'liquidite_generale' => $this->calculerEvolutions(
+            'Liquidite generale' => $this->calculerEvolutions(
                 $passifCirculant['n'] + $tresoreriePassif['n'] ? ($actifCirculant['n'] + $tresorerieActif['n']) / ($passifCirculant['n'] + $tresoreriePassif['n']) : 0,
                 $passifCirculant['n-1'] + $tresoreriePassif['n-1'] ? ($actifCirculant['n-1'] + $tresorerieActif['n-1']) / ($passifCirculant['n-1'] + $tresoreriePassif['n-1']) : 0
             ),
-            'liquidite_reduite' => $this->calculerEvolutions(
+            'Liquidite reduite' => $this->calculerEvolutions(
                 $passifCirculant['n'] ? $actifCirculant['n'] / $passifCirculant['n'] : 0,
                 $passifCirculant['n-1'] ? $actifCirculant['n-1'] / $passifCirculant['n-1'] : 0
             ),
-            'liquidite_tresorerie' => $this->calculerEvolutions(
+            'Liquidite tresorerie' => $this->calculerEvolutions(
                 $passifCirculant['n'] + $tresoreriePassif['n'] ? $tresorerieActif['n'] / ($passifCirculant['n'] + $tresoreriePassif['n']) : 0,
                 $passifCirculant['n-1'] + $tresoreriePassif['n-1'] ? $tresorerieActif['n-1'] / ($passifCirculant['n-1'] + $tresoreriePassif['n-1']) : 0
             ),
@@ -206,10 +206,10 @@ class FinancialRatioService
             'n-1' => $this->getValeurParId($donneesNMoins1, 38),
         ];
 
-        $ebe = [
-            'n' => $this->getValeurParId($donneesN, 'EBE'), // to verify
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
-        ];
+        // $ebe = [
+        //     'n' => $this->getValeurParId($donneesN, 'EBE'), // to verify
+        //     'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
+        // ];
 
         $capitauxPropres = [
             'n' => $this->getValeurParId($donneesN, 27), // ID Total des capitaux propres après résultat de l'exercice
@@ -227,23 +227,23 @@ class FinancialRatioService
         ];
 
         return [
-            'charges_financieres_ca' => $this->calculerEvolutions(
+            'Charges financieres CA' => $this->calculerEvolutions(
                 $ca['n'] ? $chargesFinancieres['n'] / $ca['n'] : 0,
                 $ca['n-1'] ? $chargesFinancieres['n-1'] / $ca['n-1'] : 0
             ),
-            'charges_financieres_ebe' => $this->calculerEvolutions(
-                $ebe['n'] ? $chargesFinancieres['n'] / $ebe['n'] : 0,
-                $ebe['n-1'] ? $chargesFinancieres['n-1'] / $ebe['n-1'] : 0
-            ),
-            'dettes_financieres_capitaux_propres' => $this->calculerEvolutions(
+            // 'charges_financieres_ebe' => $this->calculerEvolutions(
+            //     $ebe['n'] ? $chargesFinancieres['n'] / $ebe['n'] : 0,
+            //     $ebe['n-1'] ? $chargesFinancieres['n-1'] / $ebe['n-1'] : 0
+            // ),
+            'Dettes financieres capitaux propres' => $this->calculerEvolutions(
                 $capitauxPropres['n'] ? $dettesFinancieres['n'] / $capitauxPropres['n'] : 0,
                 $capitauxPropres['n-1'] ? $dettesFinancieres['n-1'] / $capitauxPropres['n-1'] : 0
             ),
-            'ebitda_charges_financieres' => $this->calculerEvolutions(
+            'EBITDA charges financieres' => $this->calculerEvolutions(
                 $chargesFinancieres['n'] ? $ebitda['n'] / $chargesFinancieres['n'] : 0,
                 $chargesFinancieres['n-1'] ? $ebitda['n-1'] / $chargesFinancieres['n-1'] : 0
             ),
-            'dettes_financieres_ebitda' => $this->calculerEvolutions(
+            'Dettes financieres ebitda' => $this->calculerEvolutions(
                 $ebitda['n'] ? $dettesFinancieres['n'] / $ebitda['n'] : 0,
                 $ebitda['n-1'] ? $dettesFinancieres['n-1'] / $ebitda['n-1'] : 0
             ),
@@ -268,11 +268,11 @@ class FinancialRatioService
         ];
 
         return [
-            'capitaux_propres_ressources_stables' => $this->calculerEvolutions(
+            'Capitaux propres ressources stables' => $this->calculerEvolutions(
                 $ressourcesStables['n'] ? $capitauxPropres['n'] / $ressourcesStables['n'] : 0,
                 $ressourcesStables['n-1'] ? $capitauxPropres['n-1'] / $ressourcesStables['n-1'] : 0
             ),
-            'capitaux_propres_total_bilan' => $this->calculerEvolutions(
+            'Capitaux propres total bilan' => $this->calculerEvolutions(
                 $totalBilan['n'] ? $capitauxPropres['n'] / $totalBilan['n'] : 0,
                 $totalBilan['n-1'] ? $capitauxPropres['n-1'] / $totalBilan['n-1'] : 0
             ),

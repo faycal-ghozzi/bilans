@@ -26,22 +26,41 @@
                         <td colspan="6" class="font-bold px-6 py-4 bg-gray-200">{{ ucfirst($categorie) }}</td>
                     </tr>
                     @foreach ($categorieRatios as $nom => $valeurs)
-                        <tr class="hover:scale-105 transition-transform duration-150 ease-in-out">
-                            <td class="px-6 py-4"></td>
-                            <td class="px-6 py-4">{{ $nom }}</td>
-                            <td class="px-6 py-4">
-                                {{ number_format($valeurs['valeur_n'], 2) }} {{ strpos($nom, '%') !== false ? '%' : '' }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ number_format($valeurs['valeur_n_1'], 2) }} {{ strpos($nom, '%') !== false ? '%' : '' }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ number_format($valeurs['evolution_absolue'], 2) }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ number_format($valeurs['evolution_pourcentage'], 2) }}%
-                            </td>
-                        </tr>
+                        @if(in_array($nom, ['Ressources stables actifs immobilises', 'Actif circulant passif circulant']))
+                            <tr class="hover:scale-105 transition-transform duration-150 ease-in-out">
+                                <td class="px-6 py-4"></td>
+                                <td class="px-6 py-4">{{ $nom }}</td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['valeur_n'], 2) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['valeur_n_1'], 2) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['evolution_absolue'], 2) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['evolution_pourcentage'], 2) }}%
+                                </td>
+                            </tr>
+                        @else
+                            <tr class="hover:scale-105 transition-transform duration-150 ease-in-out">
+                                <td class="px-6 py-4"></td>
+                                <td class="px-6 py-4">{{ $nom }}</td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['valeur_n']*100, 2) }} %
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['valeur_n_1']*100, 2) }} %
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['evolution_absolue']*100, 2) }} %
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($valeurs['evolution_pourcentage'], 2) }}%
+                                </td>
+                            </tr>
+                        @endif
                     @endforeach
                 @endforeach
             </tbody>

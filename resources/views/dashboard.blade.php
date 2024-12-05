@@ -7,7 +7,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-btlGreen text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">Total des entreprises</h2>
+                <h2 class="text-lg font-semibold mb-4">Nombre des entreprises</h2>
                 <p class="text-4xl font-bold">{{ $totalCompanies }}</p>
             </div>
             <div>
@@ -16,7 +16,7 @@
         </div>
         <div class="bg-blue-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">États financiers totaux</h2>
+                <h2 class="text-lg font-semibold mb-4">Nombre des États financiers</h2>
                 <p class="text-4xl font-bold">{{ $totalFinancialStatements }}</p>
             </div>
             <div>
@@ -25,7 +25,7 @@
         </div>
         <div class="bg-indigo-600 text-white shadow-lg rounded-lg p-6 flex justify-between items-center">
             <div>
-                <h2 class="text-lg font-semibold mb-4">Nombre total d'utilisateurs</h2>
+                <h2 class="text-lg font-semibold mb-4">Nombre d'utilisateurs</h2>
                 <p class="text-4xl font-bold">{{ $totalUsers }}</p>
             </div>
             <div>

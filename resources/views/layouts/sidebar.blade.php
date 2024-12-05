@@ -11,7 +11,7 @@
                         <circle cx="15" cy="16" r="3" />
                         <line x1="18" y1="19" x2="21" y2="22" stroke="currentColor" stroke-width="2" />
                     </svg>
-                    Consulter
+                    Consultation
                 </a>
             </li>
             <li>
@@ -21,7 +21,7 @@
                         <!-- Ratios Icon -->
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h2v10H3V10zm6-4h2v14H9V6zm6 8h2v6h-2v-6zm6-8h2v14h-2V6z" />
                     </svg>
-                    Ratios
+                    Analyse Financière
                 </a>
             </li>
             <li>
@@ -32,7 +32,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v12m0 0l-4-4m4 4l4-4" />
                         <rect x="4" y="18" width="16" height="2" rx="1" />
                     </svg>
-                    Télécharger
+                    Télécharger EF
                 </a>
             </li>
         </ul>

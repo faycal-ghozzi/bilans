@@ -7,7 +7,7 @@
         </div>
 
         <div class="grid grid-cols-4 items-center gap-x-4">
-            <label for="company_year" class="font-medium text-gray-700 col-start-2">Date de l'État Financier</label>
+            <label for="company_year" class="font-medium text-gray-700 col-start-2">Date des États Financiers</label>
             <input type="date" name="current_year" id="current_year" class="form_control px-4 py-2 border bg-gray-100 rounded-md w-full text-right col-start-3 step-1-verif" required>
         </div>
 
