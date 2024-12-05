@@ -19,7 +19,7 @@ class FinancialAnalysisController extends Controller
     public function index($id)
     {
         $file = FinancialStatementFile::with('company')->findOrFail($id);
-        $ratios = $this->financialRatioService->calculateRatios($id);
+        $ratios = $this->financialRatioService->calculerRatios($id);
 
         return view('financial-analysis.results', [
             'file' => $file,

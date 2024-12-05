@@ -58,28 +58,28 @@ class FinancialRatioService
     private function calculerRatiosRentabilite($donneesN, $donneesNMoins1)
     {
         $resultatExploitation = [
-            'n' => $this->getValeurParId($donneesN, 'Résultat d\'exploitation'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Résultat d\'exploitation'),
+            'n' => $this->getValeurParId($donneesN, 49), // ID Résultat d'exploitation 
+            'n-1' => $this->getValeurParId($donneesNMoins1, 49),
         ];
 
         $capitauxPropres = [
-            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 27), // ID Total des capitaux propres après résultat de l\'exercice
+            'n-1' => $this->getValeurParId($donneesNMoins1, 27),
         ];
 
         $dettesFinancieres = [
-            'n' => $this->getValeurParId($donneesN, 'Total des passifs non courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs non courants'),
+            'n' => $this->getValeurParId($donneesN, 31), // ID Total des passifs non courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 31),
         ];
 
         $ebe = [
-            'n' => $this->getValeurParId($donneesN, 'EBE'),
+            'n' => $this->getValeurParId($donneesN, 'EBE'), // to verify
             'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
         ];
 
         $ca = [
-            'n' => $this->getValeurParId($donneesN, 'Revenus'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Revenus'),
+            'n' => $this->getValeurParId($donneesN, 38), // ID Revenus
+            'n-1' => $this->getValeurParId($donneesNMoins1, 38),
         ];
 
         $caf = [
@@ -110,23 +110,23 @@ class FinancialRatioService
     private function calculerRatiosStructureFinanciere($donneesN, $donneesNMoins1)
     {
         $ressourcesStables = [
-            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres et passifs'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres et passifs'),
+            'n' => $this->getValeurParId($donneesN, 37), // ID Total des capitaux propres et passifs
+            'n-1' => $this->getValeurParId($donneesNMoins1, 37),
         ];
 
         $actifsImmobiles = [
-            'n' => $this->getValeurParId($donneesN, 'Total actifs immobilisés'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total actifs immobilisés'),
+            'n' => $this->getValeurParId($donneesN, 7), // ID Total actifs immobilisés
+            'n-1' => $this->getValeurParId($donneesNMoins1, 7),
         ];
 
         $actifCirculant = [
-            'n' => $this->getValeurParId($donneesN, 'Total actifs courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total actifs courants'),
+            'n' => $this->getValeurParId($donneesN, 17), // ID Total actifs courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 17),
         ];
 
         $passifCirculant = [
-            'n' => $this->getValeurParId($donneesN, 'Total passifs courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total passifs courants'),
+            'n' => $this->getValeurParId($donneesN, 35), // ID Total passifs courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 35),
         ];
 
         $fr = [
@@ -147,11 +147,11 @@ class FinancialRatioService
 
     private function calculateCAF($data)
     {
-        $resultatNet = $this->getValeurParId($data, 'Résultat net de l\'exercice');
-        $dotations = $this->getValeurParId($data, 'Dotations aux amortissements et aux provisions');
-        $reprises = $this->getValeurParId($data, 'Reprises sur provisions');
-        $produitsCession = $this->getValeurParId($data, 'Produits de cession d\'immobilisations');
-        $valeursComptables = $this->getValeurParId($data, 'Valeurs comptables des immobilisations cédées');
+        $resultatNet = $this->getValeurParId($data, 58); // ID Résultat net de l'exercice
+        $dotations = $this->getValeurParId($data, 46); // ID Dotations aux amortissements et aux provisions
+        $reprises = $this->getValeurParId($data, 'Reprises sur provisions'); // to verify
+        $produitsCession = $this->getValeurParId($data, 'Produits de cession d\'immobilisations'); // to verify
+        $valeursComptables = $this->getValeurParId($data, 'Valeurs comptables des immobilisations cédées'); // to verify
 
         return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
     }
@@ -159,23 +159,23 @@ class FinancialRatioService
     private function calculerRatiosLiquidite($donneesN, $donneesNMoins1)
     {
         $actifCirculant = [
-            'n' => $this->getValeurParId($donneesN, 'Total des actifs courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des actifs courants'),
+            'n' => $this->getValeurParId($donneesN, 17), // ID Total des actifs courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 17),
         ];
 
         $tresorerieActif = [
-            'n' => $this->getValeurParId($donneesN, 'Liquidités et équivalents de liquidités'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Liquidités et équivalents de liquidités'),
+            'n' => $this->getValeurParId($donneesN, 16), // ID Liquidités et équivalents de liquidités
+            'n-1' => $this->getValeurParId($donneesNMoins1, 16),
         ];
 
         $passifCirculant = [
-            'n' => $this->getValeurParId($donneesN, 'Total des passifs courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs courants'),
+            'n' => $this->getValeurParId($donneesN, 35), // ID Total des passifs courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 35),
         ];
 
         $tresoreriePassif = [
-            'n' => $this->getValeurParId($donneesN, 'Concours bancaires et autres passifs financiers'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Concours bancaires et autres passifs financiers'),
+            'n' => $this->getValeurParId($donneesN, 34), // ID Concours bancaires et autres passifs financiers
+            'n-1' => $this->getValeurParId($donneesNMoins1, 34),
         ];
 
         return [
@@ -197,28 +197,28 @@ class FinancialRatioService
     private function calculerRatiosEndettement($donneesN, $donneesNMoins1)
     {
         $chargesFinancieres = [
-            'n' => $this->getValeurParId($donneesN, 'Charges financières nettes'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Charges financières nettes'),
+            'n' => $this->getValeurParId($donneesN, 50), // ID Charges financières nettes
+            'n-1' => $this->getValeurParId($donneesNMoins1, 50),
         ];
 
         $ca = [
-            'n' => $this->getValeurParId($donneesN, 'Revenus'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Revenus'),
+            'n' => $this->getValeurParId($donneesN, 38), // ID Revenus
+            'n-1' => $this->getValeurParId($donneesNMoins1, 38),
         ];
 
         $ebe = [
-            'n' => $this->getValeurParId($donneesN, 'EBE'),
+            'n' => $this->getValeurParId($donneesN, 'EBE'), // to verify
             'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
         ];
 
         $capitauxPropres = [
-            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 27), // ID Total des capitaux propres après résultat de l'exercice
+            'n-1' => $this->getValeurParId($donneesNMoins1, 27),
         ];
 
         $dettesFinancieres = [
-            'n' => $this->getValeurParId($donneesN, 'Total des passifs non courants'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs non courants'),
+            'n' => $this->getValeurParId($donneesN, 31), // ID Total des passifs non courants
+            'n-1' => $this->getValeurParId($donneesNMoins1, 31),
         ];
 
         $ebitda = [
@@ -253,18 +253,18 @@ class FinancialRatioService
     private function calculerRatiosSolvabilite($donneesN, $donneesNMoins1)
     {
         $capitauxPropres = [
-            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 27),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 27),
         ];
 
         $ressourcesStables = [
-            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres et passifs'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres et passifs'),
+            'n' => $this->getValeurParId($donneesN, 37),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 37),
         ];
 
         $totalBilan = [
-            'n' => $this->getValeurParId($donneesN, 'Total des actifs'),
-            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des actifs'),
+            'n' => $this->getValeurParId($donneesN, 18),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 18),
         ];
 
         return [
@@ -281,11 +281,9 @@ class FinancialRatioService
 
     private function calculateEBITDA($data)
     {
-        // Retrieve necessary values
-        $resultatExploitation = $this->getValeurParId($data, 'Résultat d\'exploitation'); // Operating result
-        $dotations = $this->getValeurParId($data, 'Dotations aux amortissements et aux provisions'); // Depreciation and provisions
+        $resultatExploitation = $this->getValeurParId($data, 49);
+        $dotations = $this->getValeurParId($data, 46);
 
-        // Calculate EBITDA
         return $resultatExploitation + $dotations;
     }
 }
