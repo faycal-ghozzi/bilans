@@ -25,7 +25,7 @@
             @endphp
             @foreach ($entries as $entry)
             <div 
-                class="grid grid-cols-5 gap-4 items-center 
+                class="grid grid-cols-5 gap-4 items-center transition-transform transform hover:scale-105 duration-150 ease-in-out 
                     {{ $entry->decoration == 'stripe' ? 'bg-btlGreen text-white' : ($loop->even ? 'bg-gray-100' : 'bg-white') }}">
                 
                 <!-- Label -->
