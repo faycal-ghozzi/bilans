@@ -20,13 +20,13 @@
                     <th class="px-6 py-3 text-left font-semibold text-sm uppercase">Évolution %</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-200">
+            <tbody>
                 @foreach ($ratios as $categorie => $categorieRatios)
-                    <tr class="bg-gray-100">
+                    <tr>
                         <td colspan="6" class="font-bold px-6 py-4 bg-gray-200">{{ ucfirst($categorie) }}</td>
                     </tr>
                     @foreach ($categorieRatios as $nom => $valeurs)
-                        <tr class="hover:bg-btlGreen hover:text-white transition-transform transform hover:scale-105 duration-150 ease-in-out">
+                        <tr class="hover:scale-105 transition-transform duration-150 ease-in-out">
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4">{{ $nom }}</td>
                             <td class="px-6 py-4">{{ number_format($valeurs['valeur'], 2) }}</td>
