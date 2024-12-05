@@ -11,7 +11,7 @@ class FinancialRatioService
     public function calculateRatios($id)
     {
         $file = FinancialStatementFile::with('company')->findOrFail($id);
-        
+
         $dateCurrentYear = Carbon::parse($file->date)->format('Y-m-d');
         $datePreviousYear = Carbon::parse($file->date)->subYear()->format('Y-m-d');
 
@@ -27,103 +27,104 @@ class FinancialRatioService
         $previousYearData = $financialStatements[$datePreviousYear] ?? collect([]);
 
         return [
-            'profitability' => $this->calculateProfitabilityRatios($currentYearData, $previousYearData),
-            'financial_structure' => $this->calculateFinancialStructureRatios($currentYearData, $previousYearData),
-            'liquidity' => $this->calculateLiquidityRatios($currentYearData, $previousYearData),
-            'indebtedness' => $this->calculateIndebtednessRatios($currentYearData, $previousYearData),
-            'solvency' => $this->calculateSolvencyRatios($currentYearData),
+            'rentabilité' => $this->calculateRentabiliteRatios($currentYearData, $previousYearData),
+            'structure_financière' => $this->calculateStructureFinanciereRatios($currentYearData, $previousYearData),
+            'liquidité' => $this->calculateLiquiditeRatios($currentYearData, $previousYearData),
+            'endettement' => $this->calculateEndettementRatios($currentYearData, $previousYearData),
+            'solvabilité' => $this->calculateSolvabiliteRatios($currentYearData, $previousYearData),
         ];
     }
 
-    private function calculateProfitabilityRatios($currentYearData, $previousYearData)
+    private function calculateEvolutions($currentValue, $previousValue)
     {
-        $resultatExploitation = $this->getValueByLabel($currentYearData, 'Résultat d\'exploitation');
-        $capitauxPropres = $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice');
-        $dettesFinancieres = $this->getValueByLabel($currentYearData, 'Total des passifs non courants');
-        $resultatNet = $this->getValueByLabel($currentYearData, 'Résultat net de l\'exercice');
-        $ebe = $this->getValueByLabel($currentYearData, 'EBE');
-        $ca = $this->getValueByLabel($currentYearData, 'Revenus');
-        $caf = $this->calculateCAF($currentYearData);
+        $absolute = $currentValue - $previousValue;
+        $percentage = $previousValue != 0 ? ($absolute / $previousValue) * 100 : 0;
 
         return [
-            'operating_return_on_equity' => ($capitauxPropres + $dettesFinancieres) ? ($resultatExploitation / ($capitauxPropres + $dettesFinancieres)) : 0,
-            'net_return_on_equity' => $capitauxPropres ? ($resultatNet / $capitauxPropres) : 0,
-            'ebe_to_revenue' => $ca ? ($ebe / $ca) : 0,
-            'net_return_on_revenue' => $ca ? ($resultatNet / $ca) : 0,
-            'caf_to_revenue' => $ca ? ($caf / $ca) : 0,
+            'valeur' => $currentValue,
+            'n_1' => $previousValue,
+            'absolue' => $absolute,
+            'pourcentage' => $percentage,
         ];
     }
 
-    private function calculateFinancialStructureRatios($currentYearData, $previousYearData)
+    private function calculateRentabiliteRatios($currentYearData, $previousYearData)
     {
-        $ressourcesStables = $this->getValueByLabel($currentYearData, 'Total des capitaux propres et passifs');
-        $actifsImmobiles = $this->getValueByLabel($currentYearData, 'Total des actifs immobilisés');
-        $actifCirculant = $this->getValueByLabel($currentYearData, 'Total des actifs courants');
-        $passifCirculant = $this->getValueByLabel($currentYearData, 'Total des passifs courants');
+        $resultatExploitation = [
+            'n' => $this->getValueByLabel($currentYearData, 'Résultat d\'exploitation'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Résultat d\'exploitation'),
+        ];
 
-        $fr = $ressourcesStables - $actifsImmobiles;
-        $bfr = $actifCirculant - $passifCirculant;
+        $capitauxPropres = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+        ];
 
-        $encoursClients = $this->getValueByLabel($currentYearData, 'Clients et comptes rattachés');
-        $achatsTTC = $this->getValueByLabel($currentYearData, 'Achats de marchandises consommés') + $this->getValueByLabel($currentYearData, 'Achats d\'approvisionnements consommés');
-        $stocks = $this->getValueByLabel($currentYearData, 'Stocks');
-        $dettesFournisseurs = $this->getValueByLabel($currentYearData, 'Fournisseurs et comptes rattachés');
+        $ca = [
+            'n' => $this->getValueByLabel($currentYearData, 'Revenus'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Revenus'),
+        ];
 
-        $caAnnuel = $this->getValueByLabel($currentYearData, 'Revenus');
+        $ebe = [
+            'n' => $this->getValueByLabel($currentYearData, 'EBE'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'EBE'),
+        ];
 
         return [
-            'stable_resources_minus_fixed_assets' => $fr,
-            'working_capital' => $bfr,
-            'fr_bfr' => $bfr ? ($fr - $bfr) : 0,
-            'client_turnover' => $caAnnuel ? (($encoursClients / $caAnnuel) * 365) : 0,
-            'stock_turnover' => $achatsTTC ? (($stocks / $achatsTTC) * 365) : 0,
-            'supplier_payment_period' => $achatsTTC ? (($dettesFournisseurs / $achatsTTC) * 365) : 0,
-            'fr_to_total_assets' => $ressourcesStables ? ($fr / $ressourcesStables) : 0,
-            'fr_to_bfr' => $bfr ? ($fr / $bfr) : 0,
+            'retour_sur_capitaux_propres_exploitation' => $this->calculateEvolutions(
+                $capitauxPropres['n'] ? $resultatExploitation['n'] / $capitauxPropres['n'] : 0,
+                $capitauxPropres['n-1'] ? $resultatExploitation['n-1'] / $capitauxPropres['n-1'] : 0
+            ),
+            'retour_sur_capitaux_propres_net' => $this->calculateEvolutions(
+                $capitauxPropres['n'] ? $ca['n'] / $capitauxPropres['n'] : 0,
+                $capitauxPropres['n-1'] ? $ca['n-1'] / $capitauxPropres['n-1'] : 0
+            ),
+            'ebe_ca' => $this->calculateEvolutions(
+                $ca['n'] ? $ebe['n'] / $ca['n'] : 0,
+                $ca['n-1'] ? $ebe['n-1'] / $ca['n-1'] : 0
+            ),
         ];
     }
 
-    private function calculateLiquidityRatios($currentYearData, $previousYearData)
+    private function calculateStructureFinanciereRatios($currentYearData, $previousYearData)
     {
-        $actifCirculant = $this->getValueByLabel($currentYearData, 'Total des actifs courants');
-        $tresorerieActif = $this->getValueByLabel($currentYearData, 'Liquidités et équivalents de liquidités');
-        $passifCirculant = $this->getValueByLabel($currentYearData, 'Total des passifs courants');
-        $tresoreriePassif = $this->getValueByLabel($currentYearData, 'Concours bancaires et autres passifs financiers');
+        $ressourcesStables = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres et passifs'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres et passifs'),
+        ];
+
+        $actifsImmobiles = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des actifs immobilisés'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des actifs immobilisés'),
+        ];
+
+        $fr = [
+            'n' => $ressourcesStables['n'] - $actifsImmobiles['n'],
+            'n-1' => $ressourcesStables['n-1'] - $actifsImmobiles['n-1'],
+        ];
 
         return [
-            'current_liquidity' => ($passifCirculant + $tresoreriePassif) ? (($actifCirculant + $tresorerieActif) / ($passifCirculant + $tresoreriePassif)) : 0,
-            'quick_ratio' => $passifCirculant ? (($actifCirculant) / $passifCirculant) : 0,
-            'cash_ratio' => ($passifCirculant + $tresoreriePassif) ? ($tresorerieActif / ($passifCirculant + $tresoreriePassif)) : 0,
+            'fr' => $this->calculateEvolutions($fr['n'], $fr['n-1']),
         ];
     }
 
-    private function calculateIndebtednessRatios($currentYearData, $previousYearData)
+    private function calculateLiquiditeRatios($currentYearData, $previousYearData)
     {
-        $chargesFinancieres = $this->getValueByLabel($currentYearData, 'Charges financières nettes');
-        $ca = $this->getValueByLabel($currentYearData, 'Revenus');
-        $ebe = $this->getValueByLabel($currentYearData, 'EBE');
-        $capitauxPropres = $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice');
-        $dettesFinancieres = $this->getValueByLabel($currentYearData, 'Total des passifs non courants');
-        $ebitda = $this->calculateEBITDA($currentYearData);
-
-        return [
-            'financial_charges_to_revenue' => $ca ? ($chargesFinancieres / $ca) : 0,
-            'financial_charges_to_ebe' => $ebe ? ($chargesFinancieres / $ebe) : 0,
-            'financial_debt_to_equity' => $capitauxPropres ? ($dettesFinancieres / $capitauxPropres) : 0,
-            'ebitda_to_financial_charges' => $chargesFinancieres ? ($ebitda / $chargesFinancieres) : 0,
-            'financial_debt_to_ebitda' => $ebitda ? ($dettesFinancieres / $ebitda) : 0,
+        $actifCirculant = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des actifs courants'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des actifs courants'),
         ];
-    }
 
-    private function calculateSolvencyRatios($currentYearData)
-    {
-        $capitauxPropres = $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice');
-        $ressourcesStables = $this->getValueByLabel($currentYearData, 'Total des capitaux propres et passifs');
-        $totalBilan = $this->getValueByLabel($currentYearData, 'Total des actifs');
+        $passifCirculant = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des passifs courants'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des passifs courants'),
+        ];
 
         return [
-            'equity_to_stable_resources' => $ressourcesStables ? ($capitauxPropres / $ressourcesStables) : 0,
-            'equity_to_total_assets' => $totalBilan ? ($capitauxPropres / $totalBilan) : 0,
+            'liquidite_generale' => $this->calculateEvolutions(
+                $passifCirculant['n'] ? $actifCirculant['n'] / $passifCirculant['n'] : 0,
+                $passifCirculant['n-1'] ? $actifCirculant['n-1'] / $passifCirculant['n-1'] : 0
+            ),
         ];
     }
 
@@ -134,24 +135,5 @@ class FinancialRatioService
                 return isset($item->entryPoint) && $item->entryPoint->label === $label;
             })
             ->sum('value');
-    }
-
-    private function calculateEBITDA($currentYearData)
-    {
-        $resultatExploitation = $this->getValueByLabel($currentYearData, 'Résultat d\'exploitation');
-        $dotations = $this->getValueByLabel($currentYearData, 'Dotations aux amortissements et aux provisions');
-        
-        return $resultatExploitation + $dotations;
-    }
-
-    private function calculateCAF($currentYearData)
-    {
-        $resultatNet = $this->getValueByLabel($currentYearData, 'Résultat net de l\'exercice');
-        $dotations = $this->getValueByLabel($currentYearData, 'Dotations aux amortissements et aux provisions');
-        $reprises = $this->getValueByLabel($currentYearData, 'Reprises sur provisions');
-        $produitsCession = $this->getValueByLabel($currentYearData, 'Produits de cession d\'immobilisations');
-        $valeursComptables = $this->getValueByLabel($currentYearData, 'Valeurs comptables des immobilisations cédées');
-
-        return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
     }
 }
