@@ -48,38 +48,38 @@ class FinancialRatioService
         ];
     }
 
-    private function getValeurParLibelle($data, $label)
+    private function getValeurParId($data, $id)
     {
         return $data
-            ->filter(fn($item) => isset($item->entryPoint) && $item->entryPoint->label === $label)
+            ->filter(fn($item) => $item->entry_point_id === $id)
             ->sum('value');
     }
 
     private function calculerRatiosRentabilite($donneesN, $donneesNMoins1)
     {
         $resultatExploitation = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Résultat d\'exploitation'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Résultat d\'exploitation'),
+            'n' => $this->getValeurParId($donneesN, 'Résultat d\'exploitation'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Résultat d\'exploitation'),
         ];
 
         $capitauxPropres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
         ];
 
         $dettesFinancieres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des passifs non courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des passifs non courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total des passifs non courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs non courants'),
         ];
 
         $ebe = [
-            'n' => $this->getValeurParLibelle($donneesN, 'EBE'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'EBE'),
+            'n' => $this->getValeurParId($donneesN, 'EBE'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
         ];
 
         $ca = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Revenus'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Revenus'),
+            'n' => $this->getValeurParId($donneesN, 'Revenus'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Revenus'),
         ];
 
         $caf = [
@@ -110,23 +110,23 @@ class FinancialRatioService
     private function calculerRatiosStructureFinanciere($donneesN, $donneesNMoins1)
     {
         $ressourcesStables = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des capitaux propres et passifs'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des capitaux propres et passifs'),
+            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres et passifs'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres et passifs'),
         ];
 
         $actifsImmobiles = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total actifs immobilisés'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total actifs immobilisés'),
+            'n' => $this->getValeurParId($donneesN, 'Total actifs immobilisés'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total actifs immobilisés'),
         ];
 
         $actifCirculant = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total actifs courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total actifs courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total actifs courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total actifs courants'),
         ];
 
         $passifCirculant = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total passifs courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total passifs courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total passifs courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total passifs courants'),
         ];
 
         $fr = [
@@ -147,11 +147,11 @@ class FinancialRatioService
 
     private function calculateCAF($data)
     {
-        $resultatNet = $this->getValeurParLibelle($data, 'Résultat net de l\'exercice');
-        $dotations = $this->getValeurParLibelle($data, 'Dotations aux amortissements et aux provisions');
-        $reprises = $this->getValeurParLibelle($data, 'Reprises sur provisions');
-        $produitsCession = $this->getValeurParLibelle($data, 'Produits de cession d\'immobilisations');
-        $valeursComptables = $this->getValeurParLibelle($data, 'Valeurs comptables des immobilisations cédées');
+        $resultatNet = $this->getValeurParId($data, 'Résultat net de l\'exercice');
+        $dotations = $this->getValeurParId($data, 'Dotations aux amortissements et aux provisions');
+        $reprises = $this->getValeurParId($data, 'Reprises sur provisions');
+        $produitsCession = $this->getValeurParId($data, 'Produits de cession d\'immobilisations');
+        $valeursComptables = $this->getValeurParId($data, 'Valeurs comptables des immobilisations cédées');
 
         return $resultatNet + $dotations - $reprises - $produitsCession + $valeursComptables;
     }
@@ -159,23 +159,23 @@ class FinancialRatioService
     private function calculerRatiosLiquidite($donneesN, $donneesNMoins1)
     {
         $actifCirculant = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des actifs courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des actifs courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total des actifs courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des actifs courants'),
         ];
 
         $tresorerieActif = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Liquidités et équivalents de liquidités'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Liquidités et équivalents de liquidités'),
+            'n' => $this->getValeurParId($donneesN, 'Liquidités et équivalents de liquidités'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Liquidités et équivalents de liquidités'),
         ];
 
         $passifCirculant = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des passifs courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des passifs courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total des passifs courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs courants'),
         ];
 
         $tresoreriePassif = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Concours bancaires et autres passifs financiers'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Concours bancaires et autres passifs financiers'),
+            'n' => $this->getValeurParId($donneesN, 'Concours bancaires et autres passifs financiers'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Concours bancaires et autres passifs financiers'),
         ];
 
         return [
@@ -197,28 +197,28 @@ class FinancialRatioService
     private function calculerRatiosEndettement($donneesN, $donneesNMoins1)
     {
         $chargesFinancieres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Charges financières nettes'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Charges financières nettes'),
+            'n' => $this->getValeurParId($donneesN, 'Charges financières nettes'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Charges financières nettes'),
         ];
 
         $ca = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Revenus'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Revenus'),
+            'n' => $this->getValeurParId($donneesN, 'Revenus'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Revenus'),
         ];
 
         $ebe = [
-            'n' => $this->getValeurParLibelle($donneesN, 'EBE'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'EBE'),
+            'n' => $this->getValeurParId($donneesN, 'EBE'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'EBE'),
         ];
 
         $capitauxPropres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
         ];
 
         $dettesFinancieres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des passifs non courants'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des passifs non courants'),
+            'n' => $this->getValeurParId($donneesN, 'Total des passifs non courants'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des passifs non courants'),
         ];
 
         $ebitda = [
@@ -253,18 +253,18 @@ class FinancialRatioService
     private function calculerRatiosSolvabilite($donneesN, $donneesNMoins1)
     {
         $capitauxPropres = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres après résultat de l\'exercice'),
         ];
 
         $ressourcesStables = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des capitaux propres et passifs'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des capitaux propres et passifs'),
+            'n' => $this->getValeurParId($donneesN, 'Total des capitaux propres et passifs'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des capitaux propres et passifs'),
         ];
 
         $totalBilan = [
-            'n' => $this->getValeurParLibelle($donneesN, 'Total des actifs'),
-            'n-1' => $this->getValeurParLibelle($donneesNMoins1, 'Total des actifs'),
+            'n' => $this->getValeurParId($donneesN, 'Total des actifs'),
+            'n-1' => $this->getValeurParId($donneesNMoins1, 'Total des actifs'),
         ];
 
         return [
@@ -282,8 +282,8 @@ class FinancialRatioService
     private function calculateEBITDA($data)
     {
         // Retrieve necessary values
-        $resultatExploitation = $this->getValeurParLibelle($data, 'Résultat d\'exploitation'); // Operating result
-        $dotations = $this->getValeurParLibelle($data, 'Dotations aux amortissements et aux provisions'); // Depreciation and provisions
+        $resultatExploitation = $this->getValeurParId($data, 'Résultat d\'exploitation'); // Operating result
+        $dotations = $this->getValeurParId($data, 'Dotations aux amortissements et aux provisions'); // Depreciation and provisions
 
         // Calculate EBITDA
         return $resultatExploitation + $dotations;
