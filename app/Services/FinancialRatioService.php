@@ -27,11 +27,11 @@ class FinancialRatioService
         $previousYearData = $financialStatements[$datePreviousYear] ?? collect([]);
 
         return [
-            'rentabilité' => $this->calculateRentabiliteRatios($currentYearData, $previousYearData),
-            'structure_financière' => $this->calculateStructureFinanciereRatios($currentYearData, $previousYearData),
-            'liquidité' => $this->calculateLiquiditeRatios($currentYearData, $previousYearData),
-            'endettement' => $this->calculateEndettementRatios($currentYearData, $previousYearData),
-            'solvabilité' => $this->calculateSolvabiliteRatios($currentYearData, $previousYearData),
+            'Rentabilité' => $this->calculateRentabiliteRatios($currentYearData, $previousYearData),
+            'Structure Financière' => $this->calculateStructureFinanciereRatios($currentYearData, $previousYearData),
+            'Liquidité' => $this->calculateLiquiditeRatios($currentYearData, $previousYearData),
+            'Endettement' => $this->calculateEndettementRatios($currentYearData, $previousYearData),
+            'Solvabilité' => $this->calculateSolvabiliteRatios($currentYearData, $previousYearData),
         ];
     }
 
@@ -60,28 +60,10 @@ class FinancialRatioService
             'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
         ];
 
-        $ca = [
-            'n' => $this->getValueByLabel($currentYearData, 'Revenus'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Revenus'),
-        ];
-
-        $ebe = [
-            'n' => $this->getValueByLabel($currentYearData, 'EBE'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'EBE'),
-        ];
-
         return [
-            'retour_sur_capitaux_propres_exploitation' => $this->calculateEvolutions(
+            'Retour sur capitaux propres (Résultat d\'exploitation)' => $this->calculateEvolutions(
                 $capitauxPropres['n'] ? $resultatExploitation['n'] / $capitauxPropres['n'] : 0,
                 $capitauxPropres['n-1'] ? $resultatExploitation['n-1'] / $capitauxPropres['n-1'] : 0
-            ),
-            'retour_sur_capitaux_propres_net' => $this->calculateEvolutions(
-                $capitauxPropres['n'] ? $ca['n'] / $capitauxPropres['n'] : 0,
-                $capitauxPropres['n-1'] ? $ca['n-1'] / $capitauxPropres['n-1'] : 0
-            ),
-            'ebe_ca' => $this->calculateEvolutions(
-                $ca['n'] ? $ebe['n'] / $ca['n'] : 0,
-                $ca['n-1'] ? $ebe['n-1'] / $ca['n-1'] : 0
             ),
         ];
     }
@@ -104,7 +86,7 @@ class FinancialRatioService
         ];
 
         return [
-            'fr' => $this->calculateEvolutions($fr['n'], $fr['n-1']),
+            'Fonds de Roulement (FR)' => $this->calculateEvolutions($fr['n'], $fr['n-1']),
         ];
     }
 
@@ -121,20 +103,11 @@ class FinancialRatioService
         ];
 
         return [
-            'liquidite_generale' => $this->calculateEvolutions(
+            'Liquidité Générale' => $this->calculateEvolutions(
                 $passifCirculant['n'] ? $actifCirculant['n'] / $passifCirculant['n'] : 0,
                 $passifCirculant['n-1'] ? $actifCirculant['n-1'] / $passifCirculant['n-1'] : 0
             ),
         ];
-    }
-
-    private function getValueByLabel($data, $label)
-    {
-        return $data
-            ->filter(function ($item) use ($label) {
-                return isset($item->entryPoint) && $item->entryPoint->label === $label;
-            })
-            ->sum('value');
     }
 
     private function calculateEndettementRatios($currentYearData, $previousYearData)
@@ -144,51 +117,10 @@ class FinancialRatioService
             'n-1' => $this->getValueByLabel($previousYearData, 'Charges financières nettes'),
         ];
 
-        $ca = [
-            'n' => $this->getValueByLabel($currentYearData, 'Revenus'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Revenus'),
-        ];
-
-        $ebe = [
-            'n' => $this->getValueByLabel($currentYearData, 'EBE'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'EBE'),
-        ];
-
-        $capitauxPropres = [
-            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
-        ];
-
-        $dettesFinancieres = [
-            'n' => $this->getValueByLabel($currentYearData, 'Total des passifs non courants'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Total des passifs non courants'),
-        ];
-
-        $ebitda = [
-            'n' => $this->calculateEBITDA($currentYearData),
-            'n-1' => $this->calculateEBITDA($previousYearData),
-        ];
-
         return [
-            'charges_financieres_ca' => $this->calculateEvolutions(
-                $ca['n'] ? $chargesFinancieres['n'] / $ca['n'] : 0,
-                $ca['n-1'] ? $chargesFinancieres['n-1'] / $ca['n-1'] : 0
-            ),
-            'charges_financieres_ebe' => $this->calculateEvolutions(
-                $ebe['n'] ? $chargesFinancieres['n'] / $ebe['n'] : 0,
-                $ebe['n-1'] ? $chargesFinancieres['n-1'] / $ebe['n-1'] : 0
-            ),
-            'dettes_financieres_capitaux_propres' => $this->calculateEvolutions(
-                $capitauxPropres['n'] ? $dettesFinancieres['n'] / $capitauxPropres['n'] : 0,
-                $capitauxPropres['n-1'] ? $dettesFinancieres['n-1'] / $capitauxPropres['n-1'] : 0
-            ),
-            'ebitda_charges_financieres' => $this->calculateEvolutions(
-                $chargesFinancieres['n'] ? $ebitda['n'] / $chargesFinancieres['n'] : 0,
-                $chargesFinancieres['n-1'] ? $ebitda['n-1'] / $chargesFinancieres['n-1'] : 0
-            ),
-            'dettes_financieres_ebitda' => $this->calculateEvolutions(
-                $ebitda['n'] ? $dettesFinancieres['n'] / $ebitda['n'] : 0,
-                $ebitda['n-1'] ? $dettesFinancieres['n-1'] / $ebitda['n-1'] : 0
+            'Charges Financières / Revenus' => $this->calculateEvolutions(
+                $chargesFinancieres['n'],
+                $chargesFinancieres['n-1']
             ),
         ];
     }
@@ -200,35 +132,20 @@ class FinancialRatioService
             'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
         ];
 
-        $ressourcesStables = [
-            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres et passifs'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres et passifs'),
-        ];
-
-        $totalBilan = [
-            'n' => $this->getValueByLabel($currentYearData, 'Total des actifs'),
-            'n-1' => $this->getValueByLabel($previousYearData, 'Total des actifs'),
-        ];
-
         return [
-            'capitaux_propres_ressources_stables' => $this->calculateEvolutions(
-                $ressourcesStables['n'] ? $capitauxPropres['n'] / $ressourcesStables['n'] : 0,
-                $ressourcesStables['n-1'] ? $capitauxPropres['n-1'] / $ressourcesStables['n-1'] : 0
-            ),
-            'capitaux_propres_total_bilan' => $this->calculateEvolutions(
-                $totalBilan['n'] ? $capitauxPropres['n'] / $totalBilan['n'] : 0,
-                $totalBilan['n-1'] ? $capitauxPropres['n-1'] / $totalBilan['n-1'] : 0
+            'Capitaux Propres / Ressources Stables' => $this->calculateEvolutions(
+                $capitauxPropres['n'],
+                $capitauxPropres['n-1']
             ),
         ];
     }
 
-    private function calculateEBITDA($data)
+    private function getValueByLabel($data, $label)
     {
-        // Retrieve necessary values
-        $resultatExploitation = $this->getValueByLabel($data, 'Résultat d\'exploitation'); // Operating income
-        $dotations = $this->getValueByLabel($data, 'Dotations aux amortissements et aux provisions'); // Depreciation and provisions
-
-        // Calculate EBITDA
-        return $resultatExploitation + $dotations;
+        return $data
+            ->filter(function ($item) use ($label) {
+                return isset($item->entryPoint) && $item->entryPoint->label === $label;
+            })
+            ->sum('value');
     }
 }
