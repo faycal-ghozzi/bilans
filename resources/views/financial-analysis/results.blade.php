@@ -22,24 +22,24 @@
             </thead>
             <tbody>
                 @foreach ($ratios as $categorie => $categorieRatios)
-                    <tr class="bg-gray-200">
-                        <td colspan="6" class="font-bold px-6 py-4">{{ ucfirst($categorie) }}</td>
+                    <tr>
+                        <td colspan="6" class="font-bold px-6 py-4 bg-gray-200">{{ ucfirst($categorie) }}</td>
                     </tr>
                     @foreach ($categorieRatios as $nom => $valeurs)
-                        <tr class="hover:bg-gray-100 hover:scale-105 transition-transform duration-150 ease-in-out">
+                        <tr class="hover:scale-105 transition-transform duration-150 ease-in-out">
                             <td class="px-6 py-4"></td>
                             <td class="px-6 py-4">{{ $nom }}</td>
                             <td class="px-6 py-4">
-                                {{ $valeurs['valeur'] !== null ? (strpos($nom, '%') !== false ? number_format($valeurs['valeur'] * 100, 2) . '%' : number_format($valeurs['valeur'], 2)) : '-' }}
+                                {{ number_format($valeurs['valeur_n'], 2) }} {{ strpos($nom, '%') !== false ? '%' : '' }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $valeurs['n_1'] !== null ? (strpos($nom, '%') !== false ? number_format($valeurs['n_1'] * 100, 2) . '%' : number_format($valeurs['n_1'], 2)) : '-' }}
+                                {{ number_format($valeurs['valeur_n_1'], 2) }} {{ strpos($nom, '%') !== false ? '%' : '' }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $valeurs['absolue'] !== null ? number_format($valeurs['absolue'], 2) : '-' }}
+                                {{ number_format($valeurs['evolution_absolue'], 2) }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $valeurs['pourcentage'] !== null ? number_format($valeurs['pourcentage'], 2) . '%' : '-' }}
+                                {{ number_format($valeurs['evolution_pourcentage'], 2) }}%
                             </td>
                         </tr>
                     @endforeach
