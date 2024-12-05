@@ -136,4 +136,90 @@ class FinancialRatioService
             })
             ->sum('value');
     }
+
+    private function calculateEndettementRatios($currentYearData, $previousYearData)
+    {
+        $chargesFinancieres = [
+            'n' => $this->getValueByLabel($currentYearData, 'Charges financières nettes'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Charges financières nettes'),
+        ];
+
+        $ca = [
+            'n' => $this->getValueByLabel($currentYearData, 'Revenus'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Revenus'),
+        ];
+
+        $ebe = [
+            'n' => $this->getValueByLabel($currentYearData, 'EBE'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'EBE'),
+        ];
+
+        $capitauxPropres = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+        ];
+
+        $dettesFinancieres = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des passifs non courants'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des passifs non courants'),
+        ];
+
+        $ebitda = [
+            'n' => $this->calculateEBITDA($currentYearData),
+            'n-1' => $this->calculateEBITDA($previousYearData),
+        ];
+
+        return [
+            'charges_financieres_ca' => $this->calculateEvolutions(
+                $ca['n'] ? $chargesFinancieres['n'] / $ca['n'] : 0,
+                $ca['n-1'] ? $chargesFinancieres['n-1'] / $ca['n-1'] : 0
+            ),
+            'charges_financieres_ebe' => $this->calculateEvolutions(
+                $ebe['n'] ? $chargesFinancieres['n'] / $ebe['n'] : 0,
+                $ebe['n-1'] ? $chargesFinancieres['n-1'] / $ebe['n-1'] : 0
+            ),
+            'dettes_financieres_capitaux_propres' => $this->calculateEvolutions(
+                $capitauxPropres['n'] ? $dettesFinancieres['n'] / $capitauxPropres['n'] : 0,
+                $capitauxPropres['n-1'] ? $dettesFinancieres['n-1'] / $capitauxPropres['n-1'] : 0
+            ),
+            'ebitda_charges_financieres' => $this->calculateEvolutions(
+                $chargesFinancieres['n'] ? $ebitda['n'] / $chargesFinancieres['n'] : 0,
+                $chargesFinancieres['n-1'] ? $ebitda['n-1'] / $chargesFinancieres['n-1'] : 0
+            ),
+            'dettes_financieres_ebitda' => $this->calculateEvolutions(
+                $ebitda['n'] ? $dettesFinancieres['n'] / $ebitda['n'] : 0,
+                $ebitda['n-1'] ? $dettesFinancieres['n-1'] / $ebitda['n-1'] : 0
+            ),
+        ];
+    }
+
+    private function calculateSolvabiliteRatios($currentYearData, $previousYearData)
+    {
+        $capitauxPropres = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres après résultat de l\'exercice'),
+        ];
+
+        $ressourcesStables = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des capitaux propres et passifs'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des capitaux propres et passifs'),
+        ];
+
+        $totalBilan = [
+            'n' => $this->getValueByLabel($currentYearData, 'Total des actifs'),
+            'n-1' => $this->getValueByLabel($previousYearData, 'Total des actifs'),
+        ];
+
+        return [
+            'capitaux_propres_ressources_stables' => $this->calculateEvolutions(
+                $ressourcesStables['n'] ? $capitauxPropres['n'] / $ressourcesStables['n'] : 0,
+                $ressourcesStables['n-1'] ? $capitauxPropres['n-1'] / $ressourcesStables['n-1'] : 0
+            ),
+            'capitaux_propres_total_bilan' => $this->calculateEvolutions(
+                $totalBilan['n'] ? $capitauxPropres['n'] / $totalBilan['n'] : 0,
+                $totalBilan['n-1'] ? $capitauxPropres['n-1'] / $totalBilan['n-1'] : 0
+            ),
+        ];
+    }
+
 }
